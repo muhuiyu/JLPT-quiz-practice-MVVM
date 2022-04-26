@@ -9,13 +9,51 @@
 /* Begin PBXBuildFile section */
 		E4A5E18D281853A7007C73DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18C281853A7007C73DE /* AppDelegate.swift */; };
 		E4A5E18F281853A7007C73DE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18E281853A7007C73DE /* SceneDelegate.swift */; };
-		E4A5E191281853A7007C73DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E190281853A7007C73DE /* ViewController.swift */; };
-		E4A5E194281853A7007C73DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4A5E192281853A7007C73DE /* Main.storyboard */; };
 		E4A5E196281853A8007C73DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4A5E195281853A8007C73DE /* Assets.xcassets */; };
 		E4A5E199281853A8007C73DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4A5E197281853A8007C73DE /* LaunchScreen.storyboard */; };
 		E4A5E1A4281853A8007C73DE /* JLPT_quiz_practice_MVVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1A3281853A8007C73DE /* JLPT_quiz_practice_MVVMTests.swift */; };
 		E4A5E1AE281853A8007C73DE /* JLPT_quiz_practice_MVVMUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1AD281853A8007C73DE /* JLPT_quiz_practice_MVVMUITests.swift */; };
 		E4A5E1B0281853A8007C73DE /* JLPT_quiz_practice_MVVMUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1AF281853A8007C73DE /* JLPT_quiz_practice_MVVMUITestsLaunchTests.swift */; };
+		E4A5E1D728185464007C73DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1BD28185464007C73DE /* Constants.swift */; };
+		E4A5E1D828185464007C73DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1BE28185464007C73DE /* ViewController.swift */; };
+		E4A5E1D928185464007C73DE /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1C028185464007C73DE /* IconButton.swift */; };
+		E4A5E1DA28185464007C73DE /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1C128185464007C73DE /* RoundButton.swift */; };
+		E4A5E1DB28185464007C73DE /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1C228185464007C73DE /* CircleView.swift */; };
+		E4A5E1DC28185464007C73DE /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1C328185464007C73DE /* TextButton.swift */; };
+		E4A5E1DD28185464007C73DE /* UIColor+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1C428185464007C73DE /* UIColor+Theme.swift */; };
+		E4A5E1DE28185464007C73DE /* UIFont+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1C528185464007C73DE /* UIFont+Theme.swift */; };
+		E4A5E1DF28185464007C73DE /* UIView+fadein.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1C728185464007C73DE /* UIView+fadein.swift */; };
+		E4A5E1E028185464007C73DE /* String+convertEmojiToImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1C828185464007C73DE /* String+convertEmojiToImage.swift */; };
+		E4A5E1E128185464007C73DE /* UIImageView+loadImageUsingURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1C928185464007C73DE /* UIImageView+loadImageUsingURL.swift */; };
+		E4A5E1E228185464007C73DE /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1CA28185464007C73DE /* UIColor+hex.swift */; };
+		E4A5E1E328185464007C73DE /* Decimal+formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1CB28185464007C73DE /* Decimal+formatter.swift */; };
+		E4A5E1E428185464007C73DE /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1CC28185464007C73DE /* UIViewController+Keyboard.swift */; };
+		E4A5E1E528185464007C73DE /* Date+startOfMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1CD28185464007C73DE /* Date+startOfMonth.swift */; };
+		E4A5E1E628185464007C73DE /* UIStack+RemoveAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1CE28185464007C73DE /* UIStack+RemoveAll.swift */; };
+		E4A5E1E728185464007C73DE /* UIView+roundCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1CF28185464007C73DE /* UIView+roundCorners.swift */; };
+		E4A5E1E828185464007C73DE /* Date+BeforeAfter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1D028185464007C73DE /* Date+BeforeAfter.swift */; };
+		E4A5E1E928185464007C73DE /* UIViewController+Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1D128185464007C73DE /* UIViewController+Toast.swift */; };
+		E4A5E1EA28185464007C73DE /* UILabel+setLineHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1D228185464007C73DE /* UILabel+setLineHeight.swift */; };
+		E4A5E1EB28185464007C73DE /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1D328185464007C73DE /* UIViewController+Utils.swift */; };
+		E4A5E1EC28185464007C73DE /* String+capitalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1D428185464007C73DE /* String+capitalization.swift */; };
+		E4A5E1ED28185464007C73DE /* Double+roundToDecimalPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1D528185464007C73DE /* Double+roundToDecimalPlace.swift */; };
+		E4A5E1EE28185464007C73DE /* String+convertFromHTMLToAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1D628185464007C73DE /* String+convertFromHTMLToAttributedString.swift */; };
+		E4A5E1F22818547F007C73DE /* Grammar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1F12818547F007C73DE /* Grammar.swift */; };
+		E4A5E1F42818548E007C73DE /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1F32818548E007C73DE /* Quiz.swift */; };
+		E4A5E1FD2818554B007C73DE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1FC2818554B007C73DE /* HomeViewController.swift */; };
+		E4A5E1FF28185559007C73DE /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E1FE28185559007C73DE /* HomeViewModel.swift */; };
+		E4A5E202281855DC007C73DE /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = E4A5E201281855DC007C73DE /* RxDataSources */; };
+		E4A5E205281855F2007C73DE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E4A5E204281855F2007C73DE /* RxCocoa */; };
+		E4A5E207281855F2007C73DE /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = E4A5E206281855F2007C73DE /* RxRelay */; };
+		E4A5E209281855F2007C73DE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E4A5E208281855F2007C73DE /* RxSwift */; };
+		E4A5E20C28185602007C73DE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E4A5E20B28185602007C73DE /* SnapKit */; };
+		E4A5E20F28185706007C73DE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E4A5E20E28185706007C73DE /* FirebaseAuth */; };
+		E4A5E21128185706007C73DE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E4A5E21028185706007C73DE /* FirebaseFirestore */; };
+		E4A5E21328185770007C73DE /* QuizConfigCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E21228185770007C73DE /* QuizConfigCell.swift */; };
+		E4A5E21528187517007C73DE /* QuizConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E21428187517007C73DE /* QuizConfigViewModel.swift */; };
+		E4A5E21728187616007C73DE /* QuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E21628187616007C73DE /* QuizViewController.swift */; };
+		E4A5E21928187FAC007C73DE /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E21828187FAC007C73DE /* QuizViewModel.swift */; };
+		E4A5E21B2818813F007C73DE /* FirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E21A2818813F007C73DE /* FirebaseDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +77,6 @@
 		E4A5E189281853A7007C73DE /* JLPT quiz practice MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JLPT quiz practice MVVM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4A5E18C281853A7007C73DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4A5E18E281853A7007C73DE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E4A5E190281853A7007C73DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E4A5E193281853A7007C73DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E4A5E195281853A8007C73DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4A5E198281853A8007C73DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E4A5E19A281853A8007C73DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +85,39 @@
 		E4A5E1A9281853A8007C73DE /* JLPT quiz practice MVVMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JLPT quiz practice MVVMUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4A5E1AD281853A8007C73DE /* JLPT_quiz_practice_MVVMUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLPT_quiz_practice_MVVMUITests.swift; sourceTree = "<group>"; };
 		E4A5E1AF281853A8007C73DE /* JLPT_quiz_practice_MVVMUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLPT_quiz_practice_MVVMUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E4A5E1BD28185464007C73DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E4A5E1BE28185464007C73DE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E4A5E1C028185464007C73DE /* IconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
+		E4A5E1C128185464007C73DE /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		E4A5E1C228185464007C73DE /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		E4A5E1C328185464007C73DE /* TextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
+		E4A5E1C428185464007C73DE /* UIColor+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Theme.swift"; sourceTree = "<group>"; };
+		E4A5E1C528185464007C73DE /* UIFont+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Theme.swift"; sourceTree = "<group>"; };
+		E4A5E1C728185464007C73DE /* UIView+fadein.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+fadein.swift"; sourceTree = "<group>"; };
+		E4A5E1C828185464007C73DE /* String+convertEmojiToImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+convertEmojiToImage.swift"; sourceTree = "<group>"; };
+		E4A5E1C928185464007C73DE /* UIImageView+loadImageUsingURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+loadImageUsingURL.swift"; sourceTree = "<group>"; };
+		E4A5E1CA28185464007C73DE /* UIColor+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
+		E4A5E1CB28185464007C73DE /* Decimal+formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Decimal+formatter.swift"; sourceTree = "<group>"; };
+		E4A5E1CC28185464007C73DE /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
+		E4A5E1CD28185464007C73DE /* Date+startOfMonth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+startOfMonth.swift"; sourceTree = "<group>"; };
+		E4A5E1CE28185464007C73DE /* UIStack+RemoveAll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStack+RemoveAll.swift"; sourceTree = "<group>"; };
+		E4A5E1CF28185464007C73DE /* UIView+roundCorners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+roundCorners.swift"; sourceTree = "<group>"; };
+		E4A5E1D028185464007C73DE /* Date+BeforeAfter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+BeforeAfter.swift"; sourceTree = "<group>"; };
+		E4A5E1D128185464007C73DE /* UIViewController+Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Toast.swift"; sourceTree = "<group>"; };
+		E4A5E1D228185464007C73DE /* UILabel+setLineHeight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+setLineHeight.swift"; sourceTree = "<group>"; };
+		E4A5E1D328185464007C73DE /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
+		E4A5E1D428185464007C73DE /* String+capitalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+capitalization.swift"; sourceTree = "<group>"; };
+		E4A5E1D528185464007C73DE /* Double+roundToDecimalPlace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+roundToDecimalPlace.swift"; sourceTree = "<group>"; };
+		E4A5E1D628185464007C73DE /* String+convertFromHTMLToAttributedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+convertFromHTMLToAttributedString.swift"; sourceTree = "<group>"; };
+		E4A5E1F12818547F007C73DE /* Grammar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grammar.swift; sourceTree = "<group>"; };
+		E4A5E1F32818548E007C73DE /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
+		E4A5E1FC2818554B007C73DE /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		E4A5E1FE28185559007C73DE /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		E4A5E21228185770007C73DE /* QuizConfigCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizConfigCell.swift; sourceTree = "<group>"; };
+		E4A5E21428187517007C73DE /* QuizConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizConfigViewModel.swift; sourceTree = "<group>"; };
+		E4A5E21628187616007C73DE /* QuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewController.swift; sourceTree = "<group>"; };
+		E4A5E21828187FAC007C73DE /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
+		E4A5E21A2818813F007C73DE /* FirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +125,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4A5E207281855F2007C73DE /* RxRelay in Frameworks */,
+				E4A5E20F28185706007C73DE /* FirebaseAuth in Frameworks */,
+				E4A5E205281855F2007C73DE /* RxCocoa in Frameworks */,
+				E4A5E209281855F2007C73DE /* RxSwift in Frameworks */,
+				E4A5E202281855DC007C73DE /* RxDataSources in Frameworks */,
+				E4A5E20C28185602007C73DE /* SnapKit in Frameworks */,
+				E4A5E21128185706007C73DE /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,10 +175,11 @@
 		E4A5E18B281853A7007C73DE /* JLPT quiz practice MVVM */ = {
 			isa = PBXGroup;
 			children = (
+				E4A5E1EF28185467007C73DE /* Models */,
+				E4A5E1F028185472007C73DE /* Features */,
+				E4A5E1BC28185464007C73DE /* Core */,
 				E4A5E18C281853A7007C73DE /* AppDelegate.swift */,
 				E4A5E18E281853A7007C73DE /* SceneDelegate.swift */,
-				E4A5E190281853A7007C73DE /* ViewController.swift */,
-				E4A5E192281853A7007C73DE /* Main.storyboard */,
 				E4A5E195281853A8007C73DE /* Assets.xcassets */,
 				E4A5E197281853A8007C73DE /* LaunchScreen.storyboard */,
 				E4A5E19A281853A8007C73DE /* Info.plist */,
@@ -127,6 +204,124 @@
 			path = "JLPT quiz practice MVVMUITests";
 			sourceTree = "<group>";
 		};
+		E4A5E1BC28185464007C73DE /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E4A5E1BD28185464007C73DE /* Constants.swift */,
+				E4A5E1BE28185464007C73DE /* ViewController.swift */,
+				E4A5E1BF28185464007C73DE /* Buttons */,
+				E4A5E1C428185464007C73DE /* UIColor+Theme.swift */,
+				E4A5E1C528185464007C73DE /* UIFont+Theme.swift */,
+				E4A5E1C628185464007C73DE /* Extensions */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		E4A5E1BF28185464007C73DE /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				E4A5E1C028185464007C73DE /* IconButton.swift */,
+				E4A5E1C128185464007C73DE /* RoundButton.swift */,
+				E4A5E1C228185464007C73DE /* CircleView.swift */,
+				E4A5E1C328185464007C73DE /* TextButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		E4A5E1C628185464007C73DE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E4A5E1C728185464007C73DE /* UIView+fadein.swift */,
+				E4A5E1C828185464007C73DE /* String+convertEmojiToImage.swift */,
+				E4A5E1C928185464007C73DE /* UIImageView+loadImageUsingURL.swift */,
+				E4A5E1CA28185464007C73DE /* UIColor+hex.swift */,
+				E4A5E1CB28185464007C73DE /* Decimal+formatter.swift */,
+				E4A5E1CC28185464007C73DE /* UIViewController+Keyboard.swift */,
+				E4A5E1CD28185464007C73DE /* Date+startOfMonth.swift */,
+				E4A5E1CE28185464007C73DE /* UIStack+RemoveAll.swift */,
+				E4A5E1CF28185464007C73DE /* UIView+roundCorners.swift */,
+				E4A5E1D028185464007C73DE /* Date+BeforeAfter.swift */,
+				E4A5E1D128185464007C73DE /* UIViewController+Toast.swift */,
+				E4A5E1D228185464007C73DE /* UILabel+setLineHeight.swift */,
+				E4A5E1D328185464007C73DE /* UIViewController+Utils.swift */,
+				E4A5E1D428185464007C73DE /* String+capitalization.swift */,
+				E4A5E1D528185464007C73DE /* Double+roundToDecimalPlace.swift */,
+				E4A5E1D628185464007C73DE /* String+convertFromHTMLToAttributedString.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E4A5E1EF28185467007C73DE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E4A5E1F12818547F007C73DE /* Grammar.swift */,
+				E4A5E1F32818548E007C73DE /* Quiz.swift */,
+				E4A5E21A2818813F007C73DE /* FirebaseDataSource.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E4A5E1F028185472007C73DE /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				E4A5E1F528185515007C73DE /* Quiz */,
+				E4A5E1F628185521007C73DE /* Bookmark */,
+				E4A5E1F728185527007C73DE /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		E4A5E1F528185515007C73DE /* Quiz */ = {
+			isa = PBXGroup;
+			children = (
+				E4A5E1FB2818553E007C73DE /* Views */,
+				E4A5E1F928185534007C73DE /* View Models */,
+				E4A5E1F828185530007C73DE /* Controllers */,
+			);
+			path = Quiz;
+			sourceTree = "<group>";
+		};
+		E4A5E1F628185521007C73DE /* Bookmark */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Bookmark;
+			sourceTree = "<group>";
+		};
+		E4A5E1F728185527007C73DE /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		E4A5E1F828185530007C73DE /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E4A5E1FC2818554B007C73DE /* HomeViewController.swift */,
+				E4A5E21628187616007C73DE /* QuizViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E4A5E1F928185534007C73DE /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				E4A5E1FE28185559007C73DE /* HomeViewModel.swift */,
+				E4A5E21428187517007C73DE /* QuizConfigViewModel.swift */,
+				E4A5E21828187FAC007C73DE /* QuizViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		E4A5E1FB2818553E007C73DE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E4A5E21228185770007C73DE /* QuizConfigCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +338,15 @@
 			dependencies = (
 			);
 			name = "JLPT quiz practice MVVM";
+			packageProductDependencies = (
+				E4A5E201281855DC007C73DE /* RxDataSources */,
+				E4A5E204281855F2007C73DE /* RxCocoa */,
+				E4A5E206281855F2007C73DE /* RxRelay */,
+				E4A5E208281855F2007C73DE /* RxSwift */,
+				E4A5E20B28185602007C73DE /* SnapKit */,
+				E4A5E20E28185706007C73DE /* FirebaseAuth */,
+				E4A5E21028185706007C73DE /* FirebaseFirestore */,
+			);
 			productName = "JLPT quiz practice MVVM";
 			productReference = E4A5E189281853A7007C73DE /* JLPT quiz practice MVVM.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +419,12 @@
 				Base,
 			);
 			mainGroup = E4A5E180281853A7007C73DE;
+			packageReferences = (
+				E4A5E200281855DC007C73DE /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				E4A5E203281855F2007C73DE /* XCRemoteSwiftPackageReference "RxSwift" */,
+				E4A5E20A28185602007C73DE /* XCRemoteSwiftPackageReference "SnapKit" */,
+				E4A5E20D28185706007C73DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = E4A5E18A281853A7007C73DE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -233,7 +443,6 @@
 			files = (
 				E4A5E199281853A8007C73DE /* LaunchScreen.storyboard in Resources */,
 				E4A5E196281853A8007C73DE /* Assets.xcassets in Resources */,
-				E4A5E194281853A7007C73DE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,9 +467,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4A5E191281853A7007C73DE /* ViewController.swift in Sources */,
+				E4A5E1EA28185464007C73DE /* UILabel+setLineHeight.swift in Sources */,
+				E4A5E1E028185464007C73DE /* String+convertEmojiToImage.swift in Sources */,
+				E4A5E1F42818548E007C73DE /* Quiz.swift in Sources */,
+				E4A5E1DA28185464007C73DE /* RoundButton.swift in Sources */,
+				E4A5E1E128185464007C73DE /* UIImageView+loadImageUsingURL.swift in Sources */,
+				E4A5E1EC28185464007C73DE /* String+capitalization.swift in Sources */,
+				E4A5E1F22818547F007C73DE /* Grammar.swift in Sources */,
+				E4A5E1E828185464007C73DE /* Date+BeforeAfter.swift in Sources */,
+				E4A5E21B2818813F007C73DE /* FirebaseDataSource.swift in Sources */,
+				E4A5E1E428185464007C73DE /* UIViewController+Keyboard.swift in Sources */,
 				E4A5E18D281853A7007C73DE /* AppDelegate.swift in Sources */,
+				E4A5E21328185770007C73DE /* QuizConfigCell.swift in Sources */,
 				E4A5E18F281853A7007C73DE /* SceneDelegate.swift in Sources */,
+				E4A5E1DD28185464007C73DE /* UIColor+Theme.swift in Sources */,
+				E4A5E1E328185464007C73DE /* Decimal+formatter.swift in Sources */,
+				E4A5E1FF28185559007C73DE /* HomeViewModel.swift in Sources */,
+				E4A5E1E628185464007C73DE /* UIStack+RemoveAll.swift in Sources */,
+				E4A5E1EB28185464007C73DE /* UIViewController+Utils.swift in Sources */,
+				E4A5E1ED28185464007C73DE /* Double+roundToDecimalPlace.swift in Sources */,
+				E4A5E21728187616007C73DE /* QuizViewController.swift in Sources */,
+				E4A5E1E928185464007C73DE /* UIViewController+Toast.swift in Sources */,
+				E4A5E1D828185464007C73DE /* ViewController.swift in Sources */,
+				E4A5E1E228185464007C73DE /* UIColor+hex.swift in Sources */,
+				E4A5E1FD2818554B007C73DE /* HomeViewController.swift in Sources */,
+				E4A5E1EE28185464007C73DE /* String+convertFromHTMLToAttributedString.swift in Sources */,
+				E4A5E1DC28185464007C73DE /* TextButton.swift in Sources */,
+				E4A5E1D928185464007C73DE /* IconButton.swift in Sources */,
+				E4A5E21528187517007C73DE /* QuizConfigViewModel.swift in Sources */,
+				E4A5E1DB28185464007C73DE /* CircleView.swift in Sources */,
+				E4A5E1DE28185464007C73DE /* UIFont+Theme.swift in Sources */,
+				E4A5E1DF28185464007C73DE /* UIView+fadein.swift in Sources */,
+				E4A5E1D728185464007C73DE /* Constants.swift in Sources */,
+				E4A5E21928187FAC007C73DE /* QuizViewModel.swift in Sources */,
+				E4A5E1E728185464007C73DE /* UIView+roundCorners.swift in Sources */,
+				E4A5E1E528185464007C73DE /* Date+startOfMonth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,14 +538,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E4A5E192281853A7007C73DE /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E4A5E193281853A7007C73DE /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E4A5E197281853A8007C73DE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -442,7 +675,6 @@
 				INFOPLIST_FILE = "JLPT quiz practice MVVM/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -470,7 +702,6 @@
 				INFOPLIST_FILE = "JLPT quiz practice MVVM/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -602,6 +833,79 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E4A5E200281855DC007C73DE /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		E4A5E203281855F2007C73DE /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		E4A5E20A28185602007C73DE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		E4A5E20D28185706007C73DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E4A5E201281855DC007C73DE /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4A5E200281855DC007C73DE /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
+		};
+		E4A5E204281855F2007C73DE /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4A5E203281855F2007C73DE /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		E4A5E206281855F2007C73DE /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4A5E203281855F2007C73DE /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		E4A5E208281855F2007C73DE /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4A5E203281855F2007C73DE /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		E4A5E20B28185602007C73DE /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4A5E20A28185602007C73DE /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		E4A5E20E28185706007C73DE /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4A5E20D28185706007C73DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		E4A5E21028185706007C73DE /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4A5E20D28185706007C73DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E4A5E181281853A7007C73DE /* Project object */;
 }
