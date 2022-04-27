@@ -30,3 +30,17 @@ extension QuizOption {
         case isAnswer
     }
 }
+
+enum QuizLevel: String {
+    case n1
+    case n2
+    case n3
+    case n4
+    case n5
+    case all
+}
+enum QuizType: String {
+    case kanji
+    case grammar
+    case vocab
+}
