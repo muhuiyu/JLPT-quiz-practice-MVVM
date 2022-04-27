@@ -54,6 +54,9 @@
 		E4A5E21728187616007C73DE /* QuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E21628187616007C73DE /* QuizViewController.swift */; };
 		E4A5E21928187FAC007C73DE /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E21828187FAC007C73DE /* QuizViewModel.swift */; };
 		E4A5E21B2818813F007C73DE /* FirebaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E21A2818813F007C73DE /* FirebaseDataSource.swift */; };
+		E4A5E21E2818C34E007C73DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E4A5E21D2818C34E007C73DE /* GoogleService-Info.plist */; };
+		E4A5E2202818C3B6007C73DE /* Kanji.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E21F2818C3B6007C73DE /* Kanji.swift */; };
+		E4A5E2222818C3BD007C73DE /* Vocab.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E2212818C3BD007C73DE /* Vocab.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +121,9 @@
 		E4A5E21628187616007C73DE /* QuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewController.swift; sourceTree = "<group>"; };
 		E4A5E21828187FAC007C73DE /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		E4A5E21A2818813F007C73DE /* FirebaseDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataSource.swift; sourceTree = "<group>"; };
+		E4A5E21D2818C34E007C73DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E4A5E21F2818C3B6007C73DE /* Kanji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanji.swift; sourceTree = "<group>"; };
+		E4A5E2212818C3BD007C73DE /* Vocab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vocab.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +189,7 @@
 				E4A5E195281853A8007C73DE /* Assets.xcassets */,
 				E4A5E197281853A8007C73DE /* LaunchScreen.storyboard */,
 				E4A5E19A281853A8007C73DE /* Info.plist */,
+				E4A5E21D2818C34E007C73DE /* GoogleService-Info.plist */,
 			);
 			path = "JLPT quiz practice MVVM";
 			sourceTree = "<group>";
@@ -255,6 +262,8 @@
 			isa = PBXGroup;
 			children = (
 				E4A5E1F12818547F007C73DE /* Grammar.swift */,
+				E4A5E2212818C3BD007C73DE /* Vocab.swift */,
+				E4A5E21F2818C3B6007C73DE /* Kanji.swift */,
 				E4A5E1F32818548E007C73DE /* Quiz.swift */,
 				E4A5E21A2818813F007C73DE /* FirebaseDataSource.swift */,
 			);
@@ -264,6 +273,7 @@
 		E4A5E1F028185472007C73DE /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				E4A5E21C2818C265007C73DE /* Auth */,
 				E4A5E1F528185515007C73DE /* Quiz */,
 				E4A5E1F628185521007C73DE /* Bookmark */,
 				E4A5E1F728185527007C73DE /* Settings */,
@@ -320,6 +330,13 @@
 				E4A5E21228185770007C73DE /* QuizConfigCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		E4A5E21C2818C265007C73DE /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -443,6 +460,7 @@
 			files = (
 				E4A5E199281853A8007C73DE /* LaunchScreen.storyboard in Resources */,
 				E4A5E196281853A8007C73DE /* Assets.xcassets in Resources */,
+				E4A5E21E2818C34E007C73DE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +496,8 @@
 				E4A5E21B2818813F007C73DE /* FirebaseDataSource.swift in Sources */,
 				E4A5E1E428185464007C73DE /* UIViewController+Keyboard.swift in Sources */,
 				E4A5E18D281853A7007C73DE /* AppDelegate.swift in Sources */,
+				E4A5E2202818C3B6007C73DE /* Kanji.swift in Sources */,
+				E4A5E2222818C3BD007C73DE /* Vocab.swift in Sources */,
 				E4A5E21328185770007C73DE /* QuizConfigCell.swift in Sources */,
 				E4A5E18F281853A7007C73DE /* SceneDelegate.swift in Sources */,
 				E4A5E1DD28185464007C73DE /* UIColor+Theme.swift in Sources */,
