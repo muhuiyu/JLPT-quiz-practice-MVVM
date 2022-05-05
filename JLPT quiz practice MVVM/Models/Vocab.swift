@@ -36,9 +36,9 @@ extension Vocab {
         }
     }
     
-    init?(document: DocumentSnapshot) throws {
-        id = document.documentID
-        guard let data = try document.data() as? VocabData else { return nil }
+    init?(snapshot: DocumentSnapshot) throws {
+        id = snapshot.documentID
+        let data = try snapshot.data(as: VocabData.self)
         title = data.title
         meaning = data.meaning
     }

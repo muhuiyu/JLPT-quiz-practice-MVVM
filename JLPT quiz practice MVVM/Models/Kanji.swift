@@ -6,6 +6,7 @@
 //
 
 import FirebaseFirestore
+import FirebaseFirestoreCombineSwift
 
 struct Kanji: Identifiable, Codable {
     let id: String
@@ -34,9 +35,9 @@ struct Kanji: Identifiable, Codable {
         }
     }
     
-    init?(document: DocumentSnapshot) throws {
-        id = document.documentID
-        guard let data = try document.data() as? KanjiData else { return nil }
+    init?(snapshot: DocumentSnapshot) throws {
+        id = snapshot.documentID
+        let data = try snapshot.data(as: Kanji.self)
         title = data.title
         meaning = data.meaning
     }

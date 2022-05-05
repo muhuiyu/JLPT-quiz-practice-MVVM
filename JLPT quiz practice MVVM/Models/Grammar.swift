@@ -6,6 +6,7 @@
 //
 
 import FirebaseFirestore
+import FirebaseFirestoreCombineSwift
 
 struct Grammar: Identifiable, Codable {
     let id: String
@@ -54,9 +55,9 @@ struct Grammar: Identifiable, Codable {
         }
     }
     
-    init?(document: DocumentSnapshot) throws {
-        self.id = document.documentID
-        guard let data = try document.data() as? GrammarData else { return nil }
+    init(snapshot: DocumentSnapshot) throws {
+        id = snapshot.documentID
+        let data = try snapshot.data(as: GrammarData.self)
         title = data.title
         meaning = data.meaning
         formation = data.formation
@@ -64,13 +65,4 @@ struct Grammar: Identifiable, Codable {
         remark = data.remark
         relatedGrammar = data.relatedGrammar
     }
-//    init(id: String, title: String, meaning: String, formation: String, examples: [String], remark: String, relatedGrammar: [String]) {
-//        self.id = id
-//        self.title = title
-//        self.meaning = meaning
-//        self.formation = formation
-//        self.examples = examples
-//        self.remark = remark
-//        self.relatedGrammar = relatedGrammar
-//    }
 }
