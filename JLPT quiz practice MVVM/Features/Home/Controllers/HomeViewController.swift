@@ -31,7 +31,8 @@ extension HomeViewController {
         guard let cells = tableView.visibleCells as? [QuizConfigCell] else { return }
         let configs = cells.map { $0.viewModel.config.value }
         let viewController = viewModel.getQuizViewController(with: configs)
-        navigationController?.pushViewController(viewController, animated: true)
+        viewController.isModalInPresentation = true
+        self.present(viewController.embedInNavgationController(), animated: true)
     }
 }
 

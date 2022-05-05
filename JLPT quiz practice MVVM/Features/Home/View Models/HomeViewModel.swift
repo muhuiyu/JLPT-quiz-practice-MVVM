@@ -25,12 +25,15 @@ class HomeViewModel {
 }
 
 extension HomeViewModel {
-    private func getQuizViewModel(with configuration: [QuizConfig]) -> QuizViewModel {
-        let viewModel = QuizViewModel()
-        return viewModel
-    }
-    func getQuizViewController(with configuration: [QuizConfig]) -> QuizViewController {
+    func getQuizViewController(with configurations: [QuizConfig]) -> SessionViewController {
+        print(configurations)
         
-        return QuizViewController()
+        let testID = ["006kVLwsfIdiarQ5Oxjs", "00leEbKUh7x2wqP2e0ng", "04eB4pBPaI5I8M1zrhHD"]
+        let viewModel = SessionViewModel()
+        viewModel.quizIDs.accept(testID)
+        let viewController = SessionViewController()
+        viewController.viewModel = viewModel
+        
+        return viewController
     }
 }
