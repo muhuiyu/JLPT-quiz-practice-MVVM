@@ -9,6 +9,9 @@ import Foundation
 import Firebase
 
 class FirebaseDataSource: NSObject {
+    
+    static let shared = FirebaseDataSource()
+    
     struct CollectionName {
         static let quizzes = "quizzes"
         static let kanjis = "kanjis"
@@ -49,7 +52,7 @@ extension FirebaseDataSource {
     }
 }
 
-// MARK: - Fetch quiz by ID
+// MARK: - Fetch grammar, vocab, kanji entries by ID
 extension FirebaseDataSource {
     func fetchGrammarEntry(at id: String, callback: @escaping (_ data: Grammar?, _ error: Error?) -> Void) {
         let ref = Firestore.firestore().collection(CollectionName.grammars)
@@ -58,7 +61,7 @@ extension FirebaseDataSource {
             guard let document = document else { return callback(nil, FirebaseError.snapshotMissing) }
             
             do {
-                let entry = try Grammar(document: document)
+                let entry = try Grammar(snapshot: document)
                 return callback(entry, nil)
             } catch {
                 return callback(nil, FirebaseError.entryInitFailure)
@@ -72,7 +75,7 @@ extension FirebaseDataSource {
             guard let document = document else { return callback(nil, FirebaseError.snapshotMissing) }
             
             do {
-                let entry = try Vocab(document: document)
+                let entry = try Vocab(snapshot: document)
                 return callback(entry, nil)
             } catch {
                 return callback(nil, FirebaseError.entryInitFailure)
@@ -86,7 +89,7 @@ extension FirebaseDataSource {
             guard let document = document else { return callback(nil, FirebaseError.snapshotMissing) }
             
             do {
-                let entry = try Kanji(document: document)
+                let entry = try Kanji(snapshot: document)
                 return callback(entry, nil)
             } catch {
                 return callback(nil, FirebaseError.entryInitFailure)
@@ -96,7 +99,7 @@ extension FirebaseDataSource {
 }
 // MARK: - Fetch Quizzes
 extension FirebaseDataSource {
-    func fetchQuizIds(atLevel level: QuizLevel, withType type: QuizType, callback: @escaping (_ data: [String], _ error: Error?) -> Void) {
+    private func fetchQuizIds(atLevel level: QuizLevel, withType type: QuizType, callback: @escaping (_ data: [String], _ error: Error?) -> Void) {
         var ref = Firestore.firestore().collection(CollectionName.quizzes).whereField("type", isEqualTo: type.rawValue)
         
         if level != .all {
@@ -112,12 +115,63 @@ extension FirebaseDataSource {
                 return callback([], FirebaseError.snapshotMissing)
             }
             
-            var quizIDs: [String] = snapshot
+            let quizIDs: [String] = snapshot
                 .documentChanges
                 .filter { $0.type == .added }
                 .map { $0.document.documentID }
             
             return callback(quizIDs, nil)
         }
+    }
+
+    func fetchQuizzes(atIDList ids: [String], callback: @escaping (_ data: [Quiz], _ error: Error?) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        var results = [Quiz]()
+        let ref = Firestore.firestore().collection(CollectionName.quizzes)
+        
+        var i = 0
+        while i < ids.count {
+            dispatchGroup.enter()
+            
+            let endIndex = i + Constants.maximumNumberOfFetchRequest < ids.count ? i + Constants.maximumNumberOfFetchRequest : ids.count
+            let slicedList: [String] = Array(ids[i ..< endIndex])
+            
+            ref.whereField(.documentID(), in: slicedList).getDocuments { (snapshot, error) in
+                if let error = error {
+                    return callback([], error)
+                }
+                guard let snapshot = snapshot else { return callback([], FirebaseError.snapshotMissing) }
+                results += snapshot
+                    .documentChanges
+                    .filter { $0.type == .added }
+                    .compactMap { change in
+                        try? Quiz(snapshot: change.document)
+                    }
+                dispatchGroup.leave()
+            }
+            i += Constants.maximumNumberOfFetchRequest
+        }
+        dispatchGroup.notify(queue: .main) {
+            return callback(results, nil)
+        }
+    }
+    
+    // TODO: consider user stats, level and type to generate question set
+    /// generate question set based on user stats
+    func getQuizSet(atLevel level: QuizLevel, withType type: QuizType, containQuestions number: Int, callback: @escaping (_ data: [Quiz], _ error: Error?) -> Void) {
+        // get user stats -> fetch ids
+//        self.fetchUserStats(atLevel: level, withType: type) { answeredQuizIDs, skipIDs, error in
+//            if let error = error { return callback([], error) }
+//
+//            self.fetchQuizIDs(atLevel: level, withType: type) { (allQuizIDs, error) in
+//                if let error = error { return callback([], error) }
+//                let resultIds = self.selectQuizIdToSet(answeredList: answeredQuizIDs, skippedList: skipIDs, allList: allQuizIDs, returnQuestions: number)
+//
+//                self.fetchQuizzes(atIDList: resultIds) { (results, error) in
+//                    if let error = error { return callback([], error) }
+//                    return callback(results.shuffled(), error)
+//                }
+//            }
+//        }
     }
 }
