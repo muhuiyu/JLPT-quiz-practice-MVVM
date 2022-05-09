@@ -87,7 +87,9 @@ extension HomeViewController: UITableViewDelegate {
         }
         
         guard let cell = tableView.cellForRow(at: indexPath) as? QuizConfigCell else { return }
-        let alert = UIAlertController(title: "Choose", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: viewModel.displayQuizConfigActionSheetTitle,
+                                      message: viewModel.displayQuizConfigActionSheetMessage,
+                                      preferredStyle: .actionSheet)
         for option in cell.options {
             alert.addAction(UIAlertAction(title: option, style: .default, handler: { value in
                 cell.viewModel.selectedValue.accept(value.title)
