@@ -22,6 +22,9 @@ class HomeViewModel {
         let item: String
         let options: [String]
     }
+    
+    var displayQuizConfigActionSheetTitle: String { return "Choose" }
+    var displayQuizConfigActionSheetMessage: String { return "" }
 }
 
 extension HomeViewModel {

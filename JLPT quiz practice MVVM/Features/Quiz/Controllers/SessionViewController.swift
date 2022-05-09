@@ -41,7 +41,7 @@ extension SessionViewController {
 //        return Double(Double(viewModel.currentIndex + 1)/Double(self.entry.count))
 //    }
     private func didTapDismiss() {
-        
+        self.dismiss(animated: true)
     }
 }
 // MARK: - Navigation

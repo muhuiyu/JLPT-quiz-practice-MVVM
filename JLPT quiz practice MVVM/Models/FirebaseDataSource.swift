@@ -22,7 +22,7 @@ class FirebaseDataSource: NSObject {
         static let users = "users"
         static let userStats = "userStats"
     }
-    enum UserInfoKey {
+    struct UserInfoKey {
         static let email = "email"
         static let name = "name"
         static let profilePhotoURL = "profilePhotoURL"
@@ -123,7 +123,21 @@ extension FirebaseDataSource {
             return callback(quizIDs, nil)
         }
     }
-
+    
+    func fetchQuiz(atID id: Quiz.ID, callback: @escaping (_ quiz: Quiz?, _ error: Error?) -> Void) {
+        let ref = Firestore.firestore().collection(CollectionName.quizzes)
+        
+        ref.whereField(.documentID(), isEqualTo: id).getDocuments { snapshot, error in
+            if let error = error {
+                return callback(nil, error)
+            }
+            guard let snapshot = snapshot, snapshot.count == 1 else { return callback(nil, FirebaseError.snapshotMissing) }
+                    
+            let quiz = try? Quiz(snapshot: snapshot.documents[0])
+            return callback(quiz, nil)
+        }
+    }
+    
     func fetchQuizzes(atIDList ids: [String], callback: @escaping (_ data: [Quiz], _ error: Error?) -> Void) {
         let dispatchGroup = DispatchGroup()
         var results = [Quiz]()
@@ -136,7 +150,7 @@ extension FirebaseDataSource {
             let endIndex = i + Constants.maximumNumberOfFetchRequest < ids.count ? i + Constants.maximumNumberOfFetchRequest : ids.count
             let slicedList: [String] = Array(ids[i ..< endIndex])
             
-            ref.whereField(.documentID(), in: slicedList).getDocuments { (snapshot, error) in
+            ref.whereField(.documentID(), in: slicedList).getDocuments { snapshot, error in
                 if let error = error {
                     return callback([], error)
                 }
