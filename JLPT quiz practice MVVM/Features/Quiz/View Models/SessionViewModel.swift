@@ -13,23 +13,10 @@ class SessionViewModel {
     
     var quizIDs: BehaviorRelay<[Quiz.ID]> = BehaviorRelay(value: [])
     var currentIndex: BehaviorRelay<Int> = BehaviorRelay(value: 0)
-    
     var numberOfCorrectAnswers = 0
     
     init() {
-//        self.quizIDs
-//            .asObservable()
-//            .subscribe(onNext: { value in
-//                FirebaseDataSource.shared.fetchQuizzes(atIDList: value) { data, error in
-//                    if let error = error {
-//                        print(error)
-//                        return
-//                    }
-//                    print(data)
-//                    self.quizzes.accept(data.shuffled())
-//                }
-//            })
-//            .disposed(by: disposeBag)
+        
     }
 }
 
