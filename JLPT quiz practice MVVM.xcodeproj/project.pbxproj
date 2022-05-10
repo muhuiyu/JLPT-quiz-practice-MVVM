@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+<<<<<<< HEAD
+=======
+		E4496DE928274E21006CD4A1 /* OptionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4496DE828274E21006CD4A1 /* OptionDetailViewController.swift */; };
+		E4501A6928235A2000DD802B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E4501A6828235A2000DD802B /* FirebaseAuth */; };
+		E4501A6B28235A2000DD802B /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = E4501A6A28235A2000DD802B /* FirebaseAuthCombine-Community */; };
+		E4501A6D28235A2000DD802B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E4501A6C28235A2000DD802B /* FirebaseFirestore */; };
+		E4501A6F28235A2000DD802B /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = E4501A6E28235A2000DD802B /* FirebaseFirestoreCombine-Community */; };
+>>>>>>> main
 		E4501A752823616000DD802B /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4501A742823616000DD802B /* SpinnerView.swift */; };
 		E4501A78282361A000DD802B /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4501A77282361A000DD802B /* ProgressBarView.swift */; };
 		E4501A7A282467E200DD802B /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4501A79282467E200DD802B /* QuestionViewController.swift */; };
@@ -14,6 +22,9 @@
 		E4501A7E2824687900DD802B /* QuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4501A7D2824687900DD802B /* QuestionViewModel.swift */; };
 		E4501A822824691F00DD802B /* wrong.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E4501A802824691F00DD802B /* wrong.m4a */; };
 		E4501A832824691F00DD802B /* correct.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E4501A812824691F00DD802B /* correct.m4a */; };
+		E4501A86282478FF00DD802B /* OptionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4501A85282478FF00DD802B /* OptionSection.swift */; };
+		E4501A88282484A800DD802B /* OptionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4501A87282484A800DD802B /* OptionDataSource.swift */; };
+		E4501A8A2824853B00DD802B /* OptionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4501A892824853B00DD802B /* OptionCellViewModel.swift */; };
 		E4A5E18D281853A7007C73DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18C281853A7007C73DE /* AppDelegate.swift */; };
 		E4A5E18F281853A7007C73DE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18E281853A7007C73DE /* SceneDelegate.swift */; };
 		E4A5E196281853A8007C73DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4A5E195281853A8007C73DE /* Assets.xcassets */; };
@@ -89,6 +100,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E4496DE828274E21006CD4A1 /* OptionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionDetailViewController.swift; sourceTree = "<group>"; };
 		E4501A742823616000DD802B /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		E4501A77282361A000DD802B /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		E4501A79282467E200DD802B /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
@@ -96,6 +108,9 @@
 		E4501A7D2824687900DD802B /* QuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewModel.swift; sourceTree = "<group>"; };
 		E4501A802824691F00DD802B /* wrong.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = wrong.m4a; sourceTree = "<group>"; };
 		E4501A812824691F00DD802B /* correct.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = correct.m4a; sourceTree = "<group>"; };
+		E4501A85282478FF00DD802B /* OptionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionSection.swift; sourceTree = "<group>"; };
+		E4501A87282484A800DD802B /* OptionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionDataSource.swift; sourceTree = "<group>"; };
+		E4501A892824853B00DD802B /* OptionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCellViewModel.swift; sourceTree = "<group>"; };
 		E4A5E189281853A7007C73DE /* JLPT quiz practice MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JLPT quiz practice MVVM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4A5E18C281853A7007C73DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4A5E18E281853A7007C73DE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -235,6 +250,15 @@
 			path = Audio;
 			sourceTree = "<group>";
 		};
+		E4501A84282478DB00DD802B /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				E4501A85282478FF00DD802B /* OptionSection.swift */,
+				E4501A87282484A800DD802B /* OptionDataSource.swift */,
+			);
+			path = "Data Source";
+			sourceTree = "<group>";
+		};
 		E4A5E180281853A7007C73DE = {
 			isa = PBXGroup;
 			children = (
@@ -364,7 +388,11 @@
 		E4A5E1F528185515007C73DE /* Quiz */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				E4EE97A6282B26C400940A7D /* Data Source */,
+=======
+				E4501A84282478DB00DD802B /* Data Source */,
+>>>>>>> main
 				E4A5E1FB2818553E007C73DE /* Views */,
 				E4A5E1F928185534007C73DE /* View Models */,
 				E4A5E1F828185530007C73DE /* Controllers */,
@@ -391,6 +419,7 @@
 			children = (
 				E4A5E21628187616007C73DE /* SessionViewController.swift */,
 				E4501A79282467E200DD802B /* QuestionViewController.swift */,
+				E4496DE828274E21006CD4A1 /* OptionDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -400,6 +429,7 @@
 			children = (
 				E4A5E21828187FAC007C73DE /* SessionViewModel.swift */,
 				E4501A7D2824687900DD802B /* QuestionViewModel.swift */,
+				E4501A892824853B00DD802B /* OptionCellViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -611,6 +641,7 @@
 				E4EE9799282AF12F00940A7D /* AuthenticationViewModel.swift in Sources */,
 				E4A5E1DA28185464007C73DE /* RoundButton.swift in Sources */,
 				E4A5E1E128185464007C73DE /* UIImageView+loadImageUsingURL.swift in Sources */,
+				E4496DE928274E21006CD4A1 /* OptionDetailViewController.swift in Sources */,
 				E4A5E1EC28185464007C73DE /* String+capitalization.swift in Sources */,
 				E4501A7A282467E200DD802B /* QuestionViewController.swift in Sources */,
 				E4A5E1F22818547F007C73DE /* Grammar.swift in Sources */,
@@ -618,6 +649,7 @@
 				E4A5E21B2818813F007C73DE /* FirebaseDataSource.swift in Sources */,
 				E4A5E1E428185464007C73DE /* UIViewController+Keyboard.swift in Sources */,
 				E4A5E18D281853A7007C73DE /* AppDelegate.swift in Sources */,
+				E4501A88282484A800DD802B /* OptionDataSource.swift in Sources */,
 				E4A5E2202818C3B6007C73DE /* Kanji.swift in Sources */,
 				E4A5E2222818C3BD007C73DE /* Vocab.swift in Sources */,
 				E4A5E21328185770007C73DE /* QuizConfigCell.swift in Sources */,
@@ -633,6 +665,7 @@
 				E4A5E21728187616007C73DE /* SessionViewController.swift in Sources */,
 				E4A5E1E928185464007C73DE /* UIViewController+Toast.swift in Sources */,
 				E4A5E1D828185464007C73DE /* ViewController.swift in Sources */,
+				E4501A86282478FF00DD802B /* OptionSection.swift in Sources */,
 				E4A5E1E228185464007C73DE /* UIColor+hex.swift in Sources */,
 				E4A5E1FD2818554B007C73DE /* HomeViewController.swift in Sources */,
 				E4A5E1EE28185464007C73DE /* String+convertFromHTMLToAttributedString.swift in Sources */,
@@ -643,6 +676,7 @@
 				E4A5E1DB28185464007C73DE /* CircleView.swift in Sources */,
 				E4A5E1DE28185464007C73DE /* UIFont+Theme.swift in Sources */,
 				E4A5E1DF28185464007C73DE /* UIView+fadein.swift in Sources */,
+				E4501A8A2824853B00DD802B /* OptionCellViewModel.swift in Sources */,
 				E4A5E1D728185464007C73DE /* Constants.swift in Sources */,
 				E4A5E21928187FAC007C73DE /* SessionViewModel.swift in Sources */,
 				E4A5E1E728185464007C73DE /* UIView+roundCorners.swift in Sources */,
