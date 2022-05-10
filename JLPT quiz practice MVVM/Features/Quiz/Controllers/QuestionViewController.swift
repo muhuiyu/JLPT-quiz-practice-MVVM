@@ -13,6 +13,8 @@ import RxSwift
 class QuestionViewController: ViewController {
     private let disposeBag = DisposeBag()
     
+    private let spinnerView = SpinnerView()
+    
     private let questionLabel = UILabel()
     private let tableView = UITableView()
     private let masteredButton = TextButton(frame: .zero, buttonType: .text)
@@ -23,13 +25,31 @@ class QuestionViewController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureLoadingViews()
         configureViews()
         configureConstraints()
         configureSignals()
     }
 }
+// MARK: - Action
+extension QuestionViewController {
+    private func revealAnswer() {
+        if let cells = self.tableView.visibleCells as? [OptionCell] {
+            cells.forEach { $0.viewModel.isAnswerRevealed.accept(true) }
+        }
+        self.nextButton.isHidden = false
+        self.masteredButton.isHidden = false
+    }
+}
 // MARK: - View Config
 extension QuestionViewController {
+    private func configureLoadingViews() {
+        spinnerView.isHidden = false
+        view.addSubview(spinnerView)
+        spinnerView.snp.remakeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
     private func configureViews() {
         questionLabel.font = UIFont.body
         questionLabel.textColor = UIColor.label
@@ -91,14 +111,19 @@ extension QuestionViewController {
             }
             .disposed(by: disposeBag)
         
-        viewModel.isAnswered
+        viewModel.state
             .asObservable()
-            .subscribe(onNext: { isAnswered in
-                if let cells = self.tableView.visibleCells as? [OptionCell] {
-                    cells.forEach { $0.viewModel.isAnswerRevealed.accept(isAnswered) }
+            .subscribe(onNext: { state in
+                switch state {
+                case .loading:
+                    self.spinnerView.isHidden = false
+                case .unanswered:
+                    self.spinnerView.isHidden = true
+                case .answeredWrongly, .answeredCorrectly:
+                    self.revealAnswer()
+                default:
+                    return
                 }
-                self.nextButton.isHidden = !isAnswered
-                self.masteredButton.isHidden = !isAnswered
             })
             .disposed(by: disposeBag)
     }
