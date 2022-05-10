@@ -41,7 +41,7 @@ class ProgressBarView: UIView {
 }
 // MARK: - Actions
 extension ProgressBarView {
-    func updateProgressBar(to percentage: Double, in duration: TimeInterval = 0.25) {
+    func updateProgressBar(changeToPercentage percentage: Double, withDuration duration: TimeInterval = 0.25) {
         self.percentage = percentage
         UIView.animate(withDuration: 0.25) {
             self.layoutIfNeeded()
