@@ -18,12 +18,17 @@ class QuestionViewModel {
     var quizID: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayQuestionString: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayOptions: BehaviorRelay<[OptionSection]> = BehaviorRelay(value: [])
-    
-    var isAnswered: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     var selectedOptionEntryID: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     
-    var displayNextButtonString: String { return "Next" }
-    var displayMasterButtonString: String { return "I mastered this question already" }
+    var state: BehaviorRelay<State> = BehaviorRelay(value: .loading)
+    
+    enum State {
+        case loading
+        case unanswered
+        case answeredCorrectly
+        case answeredWrongly
+        case didTapContinue
+    }
     
     init() {
         self.quizID
@@ -35,6 +40,7 @@ class QuestionViewModel {
                             print(error)
                             return
                         }
+                        self.state.accept(.unanswered)
                         self.quiz.accept(quiz)
                     }
                 }
@@ -55,24 +61,16 @@ class QuestionViewModel {
 }
 
 extension QuestionViewModel {
-//    @objc
-//    func didRequestRevealDetails(for entryID: String) -> Void {
-//        print(entryID)
-//        self.selectedOptionEntryID.accept(entryID)
-//    }
-    
-    func didSelect(_ option: QuizOption) {
-        self.isAnswered.accept(true)
-        
-        if option.isAnswer {
-            
-        } else {
-            
-        }
-    }
-    
-    func didRequestGoNextQuestion() {
+    var displayNextButtonString: String { return "Next" }
+    var displayMasterButtonString: String { return "I mastered this question already" }
+}
 
+extension QuestionViewModel {
+    func didSelect(_ option: QuizOption) {
+        self.state.accept( option.isAnswer ? .answeredCorrectly : .answeredWrongly )
+    }
+    func didRequestGoNextQuestion() {
+        self.state.accept(.didTapContinue)
     }
     func didRequestBookmarkQuestion() {
 

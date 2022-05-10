@@ -13,7 +13,6 @@ class SessionViewController: ViewController {
     
     var viewModel = SessionViewModel()
     
-    private let spinnerView = SpinnerView()
     private let headerContainer = UIView()
     private let headerProgressBar = ProgressBarView(frame: .zero, percentage: 0)
     private let sessionTitleLabel = UILabel()
@@ -29,43 +28,38 @@ class SessionViewController: ViewController {
         super.viewDidLoad()
         configureViews()
         configureConstraints()
-        configureGestures()
         configureSignals()
-        
-        viewModel.currentIndex.accept(0)
-    }
-}
-// MARK: - Actions
-extension SessionViewController {
-//    private func calculateProgress() -> Double {
-//        return Double(Double(viewModel.currentIndex + 1)/Double(self.entry.count))
-//    }
-    private func didTapDismiss() {
-        self.dismiss(animated: true)
     }
 }
 // MARK: - Navigation
 extension SessionViewController {
+    private func endSession() {
+        self.dismiss(animated: true)
+    }
+    
     // TODO: update title label, configure header progress bar
     private func updateCurrentPage() {
         // configure viewcontroller and set page controller
         let viewController = viewModel.questionViewController()
+        self.headerProgressBar.updateProgressBar(to: viewModel.currentProgress)
         self.pageController.setViewControllers([viewController], direction: .forward, animated: true)
+    }
+}
+// MARK: - Actions
+extension SessionViewController {
+    private func presentSessionSummaryAlert() {
+        self.present(viewModel.sessionSummaryAlert, animated: true, completion: nil)
+    }
+    private func didTapDismiss() {
+        viewModel.state.accept(.endSession)
     }
 }
 // MARK: - View Config
 extension SessionViewController {
-    private func configureLoadingViews() {
-        view.addSubview(spinnerView)
-        spinnerView.snp.remakeConstraints { make in
-            make.center.equalToSuperview()
-        }
-    }
     private func configureViews() {
-        spinnerView.isHidden = true
         headerContainer.addSubview(headerProgressBar)
         
-        sessionTitleLabel.text = "\(viewModel.displaySessionTitle) \(viewModel.currentIndex.value + 1)/\(viewModel.quizIDs.value.count)"
+        sessionTitleLabel.text = viewModel.displaySessionTitleString
         sessionTitleLabel.font = UIFont.small
         sessionTitleLabel.textColor = UIColor.secondaryLabel
         
@@ -105,14 +99,20 @@ extension SessionViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
-    private func configureGestures() {
-        
-    }
     private func configureSignals() {
-        viewModel.currentIndex
+        viewModel.state
             .asObservable()
-            .subscribe(onNext: { value in
-                self.updateCurrentPage()
+            .subscribe(onNext: { status in
+                switch status {
+                case .loadQuestion:
+                    self.updateCurrentPage()
+                case .loadDetail:
+                    return
+                case .presentSessionSummary:
+                    self.presentSessionSummaryAlert()
+                case .endSession:
+                    self.endSession()
+                }
             })
             .disposed(by: disposeBag)
     }
