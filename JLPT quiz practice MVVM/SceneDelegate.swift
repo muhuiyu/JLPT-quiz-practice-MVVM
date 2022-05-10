@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    private let disposeBag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -19,8 +22,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
-        let homeViewController = HomeViewController()
-        window.rootViewController = homeViewController.embedInNavgationController()
+        let authViewModel = AuthenticationViewModel()
+        authViewModel.signIn()
+        
+        authViewModel.state
+            .asObservable()
+            .subscribe(onNext: { state in
+                switch state {
+                case .signedIn:
+                    window.rootViewController = self.setViewControllers()
+                case .signedOut:
+                    window.rootViewController = self.redirectToLogin()
+                }
+            })
         window.makeKeyAndVisible()
     }
 
@@ -55,3 +69,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension SceneDelegate {
+    private func redirectToLogin() -> UIViewController {
+        let welcomeViewController = WelcomeViewController()
+        return welcomeViewController
+    }
+    private func setViewControllers() -> UIViewController {
+        let homeViewController = HomeViewController()
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [
+            homeViewController.embedInNavgationController()
+        ]
+        return tabBarController
+    }
+}

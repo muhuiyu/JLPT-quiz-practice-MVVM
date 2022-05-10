@@ -15,6 +15,13 @@ class HomeViewController: ViewController {
     
     var viewModel = HomeViewModel()
         
+    override init() {
+        super.init()
+        tabBarItem = UITabBarItem(title: viewModel.displayTabTitleString,
+                                  image: viewModel.displayTabImage,
+                                  selectedImage: viewModel.displayTabSelectedImage)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
@@ -39,14 +46,14 @@ extension HomeViewController {
 // MARK: - View Config
 extension HomeViewController {
     private func configureViews() {
-        title = viewModel.title
+        title = viewModel.displayTitleString
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(QuizConfigCell.self, forCellReuseIdentifier: QuizConfigCell.reuseID)
         view.addSubview(tableView)
         
-        startButton.text = viewModel.displayButtonText
+        startButton.text = viewModel.displayButtonTextString
         startButton.tapHandler = { [weak self] in
             self?.didTapStart()
         }

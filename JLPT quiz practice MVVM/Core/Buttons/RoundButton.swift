@@ -39,7 +39,7 @@ class RoundButton: UIView {
             }
         }
     }
-    init(frame: CGRect = .zero, icon: UIImage, buttonColor: UIColor, iconColor: UIColor) {
+    init(frame: CGRect = .zero, icon: UIImage?, buttonColor: UIColor, iconColor: UIColor) {
         super.init(frame: frame)
         self.icon = icon
         self.buttonColor = buttonColor

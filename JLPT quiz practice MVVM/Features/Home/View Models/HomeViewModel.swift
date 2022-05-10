@@ -7,12 +7,9 @@
 
 import Foundation
 import RxRelay
+import UIKit
 
 class HomeViewModel {
-    
-    var title: String { return "JLPT quiz" }
-    var displayButtonText: String { return "Start" }
-    
     var quizConfigValues: [QuizConfig] = [
         QuizConfig(item: "type", options: ["grammar", "vocab"]),
         QuizConfig(item: "level", options: ["n1", "n2"]),
@@ -22,7 +19,14 @@ class HomeViewModel {
         let item: String
         let options: [String]
     }
-    
+}
+
+extension HomeViewModel {
+    var displayTitleString: String { return "JLPT quiz" }
+    var displayButtonTextString: String { return "Start" }
+    var displayTabTitleString: String { return "Home" }
+    var displayTabImage: UIImage? { return UIImage(systemName: "house") }
+    var displayTabSelectedImage: UIImage? { return UIImage(systemName: "house.fill") }
     var displayQuizConfigActionSheetTitle: String { return "Choose" }
     var displayQuizConfigActionSheetMessage: String { return "" }
 }

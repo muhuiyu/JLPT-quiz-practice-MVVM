@@ -17,7 +17,7 @@ class SessionViewController: ViewController {
     private let headerContainer = UIView()
     private let headerProgressBar = ProgressBarView(frame: .zero, percentage: 0)
     private let sessionTitleLabel = UILabel()
-    private let dismissButton = RoundButton(icon: UIImage(systemName: "xmark")!,
+    private let dismissButton = RoundButton(icon: UIImage(systemName: "xmark"),
                                             buttonColor: UIColor.clear,
                                             iconColor: UIColor.secondaryLabel)
     private let pageControllerContainer = UIView()
@@ -37,18 +37,13 @@ class SessionViewController: ViewController {
 }
 // MARK: - Actions
 extension SessionViewController {
-//    private func calculateProgress() -> Double {
-//        return Double(Double(viewModel.currentIndex + 1)/Double(self.entry.count))
-//    }
     private func didTapDismiss() {
         self.dismiss(animated: true)
     }
 }
 // MARK: - Navigation
 extension SessionViewController {
-    // TODO: update title label, configure header progress bar
     private func updateCurrentPage() {
-        // configure viewcontroller and set page controller
         let viewController = viewModel.questionViewController()
         self.pageController.setViewControllers([viewController], direction: .forward, animated: true)
     }
