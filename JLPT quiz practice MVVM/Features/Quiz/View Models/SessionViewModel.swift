@@ -7,77 +7,54 @@
 
 import RxSwift
 import RxRelay
-import UIKit
 
 class SessionViewModel {
     private let disposeBag = DisposeBag()
     
     var quizIDs: BehaviorRelay<[Quiz.ID]> = BehaviorRelay(value: [])
-    var currentIndex = 0
+    var currentIndex: BehaviorRelay<Int> = BehaviorRelay(value: 0)
+    
     var numberOfCorrectAnswers = 0
     
-    var state: BehaviorRelay<State> = BehaviorRelay(value: .loadQuestion)
-    
-    enum State {
-        case loadQuestion
-        case loadDetail
-        case presentSessionSummary
-        case endSession
-    }
-    
     init() {
-        state.accept(.loadQuestion)
+//        self.quizIDs
+//            .asObservable()
+//            .subscribe(onNext: { value in
+//                FirebaseDataSource.shared.fetchQuizzes(atIDList: value) { data, error in
+//                    if let error = error {
+//                        print(error)
+//                        return
+//                    }
+//                    print(data)
+//                    self.quizzes.accept(data.shuffled())
+//                }
+//            })
+//            .disposed(by: disposeBag)
     }
 }
 
 extension SessionViewModel {
-    var displaySessionTitleString: String { return "test \(currentIndex + 1)/\(quizIDs.value.count)" }
-    
-    var sessionSummaryAlert: UIAlertController {
-        let alert =  UIAlertController(title: "Well done!",
-                                       message: "You got \(numberOfCorrectAnswers) out of \(quizIDs.value.count) :)",
-                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Okay, got it!", style: .default, handler: { _ in
-            self.state.accept(.endSession)
-        }))
-        return alert
-    }
+    var displaySessionTitle: String { return "test" }
 }
 
 extension SessionViewModel {
     func didTapContinue() {
         if isSessionCompleted {
-            state.accept(.presentSessionSummary)
+            
         } else {
-            currentIndex += 1
-            state.accept(.loadQuestion)
+            currentIndex.accept(currentIndex.value + 1)
         }
     }
     private var isSessionCompleted: Bool {
-        return currentIndex == quizIDs.value.count - 1
+        return false
     }
 }
 
 extension SessionViewModel {
-    var currentProgress: Double { return Double(currentIndex) / Double(quizIDs.value.count - 1) }
-    
     func questionViewController() -> QuestionViewController {
         let viewController = QuestionViewController()
         let viewModel = QuestionViewModel()
-        viewModel.quizID.accept(quizIDs.value[currentIndex])
-        viewModel.state
-            .asObservable()
-            .subscribe(onNext: { state in
-                switch state {
-                case .didTapContinue:
-                    self.didTapContinue()
-                case .answeredCorrectly:
-                    self.numberOfCorrectAnswers += 1
-                default:
-                    return
-                }
-            })
-            .disposed(by: disposeBag)
+        viewModel.quizID.accept(quizIDs.value[currentIndex.value])
         viewController.viewModel = viewModel
         return viewController
     }
