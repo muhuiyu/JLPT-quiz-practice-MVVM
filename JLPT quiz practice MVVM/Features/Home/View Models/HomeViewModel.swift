@@ -13,30 +13,30 @@ class HomeViewModel {
     var title: String { return "JLPT quiz" }
     var displayButtonText: String { return "Start" }
     
-    var quizConfigValues: [QuizConfig] = [
-        QuizConfig(item: "type", options: ["grammar", "vocab"]),
-        QuizConfig(item: "level", options: ["n1", "n2"]),
-    ]
-    
-    struct QuizConfig {
-        let item: String
+    struct CellContent {
+        let title: String
         let options: [String]
     }
+    
+    var quizConfigValues: [CellContent] = [
+        CellContent(title: "type", options: ["mixed", "grammar", "vocab", "kanji"]),
+        CellContent(title: "level", options: ["all", "n1", "n2"]),
+        CellContent(title: "number of questions", options: ["10", "15", "20"]),
+    ]
     
     var displayQuizConfigActionSheetTitle: String { return "Choose" }
     var displayQuizConfigActionSheetMessage: String { return "" }
 }
 
 extension HomeViewModel {
-    func getQuizViewController(with configurations: [QuizConfig]) -> SessionViewController {
-        print(configurations)
-        
-        let testID = ["006kVLwsfIdiarQ5Oxjs", "00leEbKUh7x2wqP2e0ng", "04eB4pBPaI5I8M1zrhHD"]
-        let viewModel = SessionViewModel()
-        viewModel.quizIDs.accept(testID)
+    func getQuizViewController(with configuration: QuizConfig, callback: @escaping (_ viewController: SessionViewController, _ error: Error?) -> Void) {
         let viewController = SessionViewController()
-        viewController.viewModel = viewModel
-        
-        return viewController
+        FirebaseDataSource.shared.generateQuizList(with: configuration) { quizIDs, error in
+            if let error = error {
+                return callback(viewController, error)
+            }
+            viewController.viewModel.quizIDs.accept(quizIDs)
+            return callback(viewController, nil)
+        }        
     }
 }

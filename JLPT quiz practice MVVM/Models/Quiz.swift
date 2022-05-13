@@ -90,7 +90,13 @@ enum QuizLevel: String, Codable {
     case all
 }
 enum QuizType: String, Codable {
+    case mixed
     case kanji
     case grammar
     case vocab
+}
+struct QuizConfig {
+    let type: QuizType
+    let level: QuizLevel
+    let numberOfQuestions: Int
 }

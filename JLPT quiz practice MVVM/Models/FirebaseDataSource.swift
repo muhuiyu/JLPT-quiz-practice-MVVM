@@ -22,13 +22,16 @@ class FirebaseDataSource: NSObject {
         static let users = "users"
         static let userStats = "userStats"
     }
-    struct UserInfoKey {
+    struct AttibuteKey {
+        static let userID = "userID"
         static let email = "email"
         static let name = "name"
         static let profilePhotoURL = "profilePhotoURL"
         static let age = "age"
         static let streakDays = "streakDays"
         static let numberOfAnsweredQuestions = "numberOfAnsweredQuestions"
+        static let type = "type"
+        static let level = "level"
     }
     
     struct Constants {
@@ -49,6 +52,25 @@ extension FirebaseDataSource {
     func getUserProfileImage() -> URL? {
         guard let user = Auth.auth().currentUser else { return nil }
         return user.photoURL
+    }
+    private func fetchUserStats(callback: @escaping (_ stats: UserStats?, _ error: Error?) -> Void) {
+        guard let user = Auth.auth().currentUser else { return callback(nil, FirebaseError.userMissing) }
+        let ref = Firestore.firestore().collection(CollectionName.userStats)
+        
+        ref.whereField(AttibuteKey.userID, isEqualTo: user.uid).getDocuments { snapshot, error in
+            if let error = error {
+                return callback(nil, error)
+            }
+            guard let snapshot = snapshot else { return callback(nil, FirebaseError.snapshotMissing) }
+            if snapshot.documentChanges.count != 1 { return callback(nil, FirebaseError.snapshotMissing) }
+
+            do {
+                let entry = try UserStats(snapshot: snapshot.documentChanges[0].document)
+                return callback(entry, nil)
+            } catch {
+                return callback(nil, FirebaseError.entryInitFailure)
+            }
+        }
     }
 }
 
@@ -97,23 +119,33 @@ extension FirebaseDataSource {
         }
     }
 }
-// MARK: - Fetch Quizzes
+// MARK: - Fetch Quizzes based on IDs
 extension FirebaseDataSource {
-    private func fetchQuizIds(atLevel level: QuizLevel, withType type: QuizType, callback: @escaping (_ data: [String], _ error: Error?) -> Void) {
-        var ref = Firestore.firestore().collection(CollectionName.quizzes).whereField("type", isEqualTo: type.rawValue)
+    func fetchQuiz(atID id: Quiz.ID, callback: @escaping (_ quiz: Quiz?, _ error: Error?) -> Void) {
+        let ref = Firestore.firestore().collection(CollectionName.quizzes)
         
-        if level != .all {
-            ref = ref.whereField("level", isEqualTo: level.rawValue)
+        ref.whereField(.documentID(), isEqualTo: id).getDocuments { snapshot, error in
+            if let error = error { return callback(nil, error) }
+            guard let snapshot = snapshot, snapshot.count == 1 else { return callback(nil, FirebaseError.snapshotMissing) }
+                    
+            let quiz = try? Quiz(snapshot: snapshot.documents[0])
+            return callback(quiz, nil)
         }
+    }
+}
+
+// MARK: - Generate Quiz set
+extension FirebaseDataSource {
+    /// Fetch all quizzes based on user query (level and type)
+    private func fetchQuizIDs(with configuration: QuizConfig, callback: @escaping (_ data: [String], _ error: Error?) -> Void) {
+        var ref: Query = Firestore.firestore().collection(CollectionName.quizzes)
+        
+        if configuration.level != .all { ref = ref.whereField(AttibuteKey.level, isEqualTo: configuration.level.rawValue) }
+        if configuration.type != .mixed { ref = ref.whereField(AttibuteKey.type, isEqualTo: configuration.type.rawValue) }
         
         ref.getDocuments { snapshot, error in
-            if let error = error {
-                return callback([], error)
-            }
-            
-            guard let snapshot = snapshot else {
-                return callback([], FirebaseError.snapshotMissing)
-            }
+            if let error = error { return callback([], error) }
+            guard let snapshot = snapshot else { return callback([], FirebaseError.snapshotMissing) }
             
             let quizIDs: [String] = snapshot
                 .documentChanges
@@ -123,69 +155,93 @@ extension FirebaseDataSource {
             return callback(quizIDs, nil)
         }
     }
-    
-    func fetchQuiz(atID id: Quiz.ID, callback: @escaping (_ quiz: Quiz?, _ error: Error?) -> Void) {
-        let ref = Firestore.firestore().collection(CollectionName.quizzes)
+    /// Fetch past question result (question answered, question mastered) of current user based on user query
+    private func fetchPastQuestionResult(with configuration: QuizConfig, callback: @escaping (_ answeredQuizIDs: [String], _ skippedQuizIDs: [String], _ error: Error?) -> Void) {
+        guard let user = Auth.auth().currentUser else { return callback([], [], FirebaseError.userMissing) }
+        var ref = Firestore.firestore().collection(CollectionName.userQuizStats).whereField(AttibuteKey.userID, isEqualTo: user.uid)
+
+        if configuration.level != .all { ref = ref.whereField(AttibuteKey.level, isEqualTo: configuration.level.rawValue) }
+        if configuration.type != .mixed { ref = ref.whereField(AttibuteKey.type, isEqualTo: configuration.type.rawValue) }
         
-        ref.whereField(.documentID(), isEqualTo: id).getDocuments { snapshot, error in
-            if let error = error {
-                return callback(nil, error)
+        ref.getDocuments { snapshot, error in
+            if let error = error { return callback([], [], error) }
+            guard let snapshot = snapshot else { return callback([], [], FirebaseError.snapshotMissing) }
+            if snapshot.documentChanges.isEmpty { return callback([], [], nil) }
+
+            var questionStatsRawData: [UserQuestionStats] = snapshot.documentChanges
+                .filter { $0.type == .added }
+                .compactMap { try? UserQuestionStats(snapshot: $0.document) }
+            
+            // 50% possilibity to return quizzes which user answered wrongly
+            if Bool.random() {
+                questionStatsRawData.sort()
+            } else {
+                questionStatsRawData.shuffle()
             }
-            guard let snapshot = snapshot, snapshot.count == 1 else { return callback(nil, FirebaseError.snapshotMissing) }
-                    
-            let quiz = try? Quiz(snapshot: snapshot.documents[0])
-            return callback(quiz, nil)
-        }
-    }
-    
-    func fetchQuizzes(atIDList ids: [String], callback: @escaping (_ data: [Quiz], _ error: Error?) -> Void) {
-        let dispatchGroup = DispatchGroup()
-        var results = [Quiz]()
-        let ref = Firestore.firestore().collection(CollectionName.quizzes)
-        
-        var i = 0
-        while i < ids.count {
-            dispatchGroup.enter()
             
-            let endIndex = i + Constants.maximumNumberOfFetchRequest < ids.count ? i + Constants.maximumNumberOfFetchRequest : ids.count
-            let slicedList: [String] = Array(ids[i ..< endIndex])
-            
-            ref.whereField(.documentID(), in: slicedList).getDocuments { snapshot, error in
-                if let error = error {
-                    return callback([], error)
+            var answeredQuizIDs = [String]()
+            var skipQuizIDs = [String]()
+            for stat in questionStatsRawData {
+                if stat.isMastered {
+                    skipQuizIDs.append(stat.quizID)
+                } else {
+                    answeredQuizIDs.append(stat.quizID)
                 }
-                guard let snapshot = snapshot else { return callback([], FirebaseError.snapshotMissing) }
-                results += snapshot
-                    .documentChanges
-                    .filter { $0.type == .added }
-                    .compactMap { change in
-                        try? Quiz(snapshot: change.document)
-                    }
-                dispatchGroup.leave()
             }
-            i += Constants.maximumNumberOfFetchRequest
-        }
-        dispatchGroup.notify(queue: .main) {
-            return callback(results, nil)
+            return callback(answeredQuizIDs, skipQuizIDs, nil)
         }
     }
-    
-    // TODO: consider user stats, level and type to generate question set
-    /// generate question set based on user stats
-    func getQuizSet(atLevel level: QuizLevel, withType type: QuizType, containQuestions number: Int, callback: @escaping (_ data: [Quiz], _ error: Error?) -> Void) {
-        // get user stats -> fetch ids
-//        self.fetchUserStats(atLevel: level, withType: type) { answeredQuizIDs, skipIDs, error in
-//            if let error = error { return callback([], error) }
-//
-//            self.fetchQuizIDs(atLevel: level, withType: type) { (allQuizIDs, error) in
-//                if let error = error { return callback([], error) }
-//                let resultIds = self.selectQuizIdToSet(answeredList: answeredQuizIDs, skippedList: skipIDs, allList: allQuizIDs, returnQuestions: number)
-//
-//                self.fetchQuizzes(atIDList: resultIds) { (results, error) in
-//                    if let error = error { return callback([], error) }
-//                    return callback(results.shuffled(), error)
-//                }
-//            }
-//        }
+    private func selectQuizIdToSet(_ answeredQuizIDs: [String], _ skippedQuizIDs: [String], _ allQuizIDs: [String], select numberOfQuestions: Int) -> [String] {
+        var selectedIDs = [String]()
+        var currentIndexOfAnsweredQuizIDs = 0
+        
+        // add answered questions to the list (half at most)
+        while currentIndexOfAnsweredQuizIDs < answeredQuizIDs.count {
+            if selectedIDs.count >= numberOfQuestions / 2 { break }
+            selectedIDs.append(answeredQuizIDs[currentIndexOfAnsweredQuizIDs])
+            currentIndexOfAnsweredQuizIDs += 1
+        }
+        
+        // add new questions to the list
+        for id in allQuizIDs.shuffled() {
+            if selectedIDs.count == numberOfQuestions { break }
+            guard !answeredQuizIDs.contains(id), !skippedQuizIDs.contains(id) else { continue }
+            selectedIDs.append(id)
+        }
+        
+        while selectedIDs.count < numberOfQuestions && currentIndexOfAnsweredQuizIDs < answeredQuizIDs.count {
+            selectedIDs.append(answeredQuizIDs[currentIndexOfAnsweredQuizIDs])
+            currentIndexOfAnsweredQuizIDs += 1
+        }
+        
+        return selectedIDs
+    }
+    /// generate question set based on user'past success rate on each question
+    func generateQuizList(with configuration: QuizConfig, callback: @escaping (_ data: [Quiz.ID], _ error: Error?) -> Void) {
+        
+        var answeredQuizIDs = [String]()
+        var skippedQuizIDs = [String]()
+        var allQuizIDs = [String]()
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
+        fetchPastQuestionResult(with: configuration) { answered, skipped, error in
+            if let error = error { return callback([], error) }
+            answeredQuizIDs = answered
+            skippedQuizIDs = skipped
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        fetchQuizIDs(with: configuration) { all, error in
+            if let error = error { return callback([], error) }
+            allQuizIDs = all
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            let selectedIDs = self.selectQuizIdToSet(answeredQuizIDs, skippedQuizIDs, allQuizIDs, select: configuration.numberOfQuestions)
+            return callback(selectedIDs.shuffled(), nil)
+        }
     }
 }

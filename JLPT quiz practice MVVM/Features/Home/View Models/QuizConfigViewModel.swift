@@ -9,12 +9,8 @@ import Foundation
 import RxRelay
 
 class QuizConfigViewModel {
-    var config: BehaviorRelay<HomeViewModel.QuizConfig> = BehaviorRelay(value: HomeViewModel.QuizConfig(item: "", options: []))
+    var config: BehaviorRelay<HomeViewModel.CellContent> = BehaviorRelay(value: HomeViewModel.CellContent(title: "", options: []))
     var selectedValue: BehaviorRelay<String?> = BehaviorRelay(value: nil)
-    
-    init() {
-        
-    }
 }
 
 extension QuizConfigViewModel {

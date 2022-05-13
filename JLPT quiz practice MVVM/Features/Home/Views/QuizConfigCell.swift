@@ -63,8 +63,11 @@ extension QuizConfigCell {
             .config
             .asObservable()
             .subscribe(onNext: { value in
-                self.titleLabel.text = value.item
+                self.titleLabel.text = value.title
                 self.options = value.options
+                if !value.options.isEmpty {
+                    self.viewModel.selectedValue.accept(value.options[0])
+                }
             })
             .disposed(by: disposeBag)
         

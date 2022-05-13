@@ -12,6 +12,7 @@ import RxDataSources
 class HomeViewController: ViewController {
     private let tableView = UITableView()
     private let startButton = TextButton()
+    private let spinnerView = SpinnerView()
     
     var viewModel = HomeViewModel()
         
@@ -19,8 +20,7 @@ class HomeViewController: ViewController {
         super.viewDidLoad()
         configureViews()
         configureConstraints()
-        configureGestures()
-        configureSignals()
+        configureLoadingViews()
     }
 }
 
@@ -28,16 +28,50 @@ class HomeViewController: ViewController {
 extension HomeViewController {
     @objc
     private func didTapStart() {
+        spinnerView.isHidden = false
         guard let cells = tableView.visibleCells as? [QuizConfigCell] else { return }
-        let configs = cells.map { $0.viewModel.config.value }
-        let viewController = viewModel.getQuizViewController(with: configs)
-        viewController.isModalInPresentation = true
-        self.present(viewController.embedInNavgationController(), animated: true)
+        
+        var type: QuizType = .mixed
+        var level: QuizLevel = .all
+        var numberOfQuestions = 10
+        
+        for cell in cells {
+            let title = cell.viewModel.config.value.title
+            guard let value = cell.viewModel.selectedValue.value else { continue }
+            
+            switch title {
+            case "level":
+                level = QuizLevel(rawValue: value) ?? .all
+            case "type":
+                type = QuizType(rawValue: value) ?? .mixed
+            case "number of questions":
+                numberOfQuestions = Int(value) ?? 10
+            default: continue
+            }
+        }
+        
+        let config = QuizConfig(type: type, level: level, numberOfQuestions: numberOfQuestions)
+        viewModel.getQuizViewController(with: config) { viewController, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            viewController.isModalInPresentation = true
+            self.spinnerView.isHidden = true
+            self.present(viewController.embedInNavgationController(), animated: true)
+        }
     }
 }
 
 // MARK: - View Config
 extension HomeViewController {
+    private func configureLoadingViews() {
+        spinnerView.isHidden = true
+        view.addSubview(spinnerView)
+        spinnerView.snp.remakeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
     private func configureViews() {
         title = viewModel.title
         
@@ -59,12 +93,6 @@ extension HomeViewController {
         startButton.snp.remakeConstraints { make in
             make.leading.trailing.bottom.equalTo(view.layoutMarginsGuide)
         }
-    }
-    private func configureGestures() {
-        
-    }
-    private func configureSignals() {
-        
     }
 }
 
@@ -95,6 +123,7 @@ extension HomeViewController: UITableViewDelegate {
                 cell.viewModel.selectedValue.accept(value.title)
             }))
         }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         self.present(alert, animated: true)
     }
 }
