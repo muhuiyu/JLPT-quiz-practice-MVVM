@@ -9,7 +9,6 @@ import UIKit
 import AVFoundation
 import RxSwift
 
-// TODO: "save" question
 class QuestionViewController: ViewController {
     private let disposeBag = DisposeBag()
     
@@ -25,7 +24,6 @@ class QuestionViewController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureLoadingViews()
         configureViews()
         configureConstraints()
         configureSignals()
@@ -33,24 +31,45 @@ class QuestionViewController: ViewController {
 }
 // MARK: - Action
 extension QuestionViewController {
-    private func revealAnswer() {
-        if let cells = self.tableView.visibleCells as? [OptionCell] {
-            cells.forEach { $0.viewModel.isAnswerRevealed.accept(true) }
-        }
+    private func displayFeedback(isCorrect: Bool) {
         self.nextButton.isHidden = false
         self.masteredButton.isHidden = false
+        
+        // 1. highlight selected item
+        guard
+            let selectedOptionIndexPath = viewModel.selectionOptionIndexPath,
+            let selectedCell = self.tableView.cellForRow(at: selectedOptionIndexPath) as? OptionCell
+        else { return }
+        selectedCell.viewModel.isAnswerRevealed.accept(true)
+        
+        // 2. highlight correct answer
+        if !isCorrect {
+            if let cells = self.tableView.visibleCells as? [OptionCell] {
+                for cell in cells {
+                    guard let option = cell.viewModel.option.value else { continue }
+                    if option.isAnswer { cell.viewModel.isAnswerRevealed.accept(true) }
+                }
+            }
+        }
+        
+        // 3. play sound
+        let soundFileName = isCorrect ? "correct.m4a" : "wrong.m4a"
+        guard let path = Bundle.main.path(forResource: soundFileName, ofType: nil) else { return }
+        let url = URL(fileURLWithPath: path)
+        do {
+            answerSoundEffect = try AVAudioPlayer(contentsOf: url)
+            answerSoundEffect?.play()
+        } catch {
+            print(error)
+        }
     }
 }
 // MARK: - View Config
 extension QuestionViewController {
-    private func configureLoadingViews() {
+    private func configureViews() {
         spinnerView.isHidden = false
         view.addSubview(spinnerView)
-        spinnerView.snp.remakeConstraints { make in
-            make.center.equalToSuperview()
-        }
-    }
-    private func configureViews() {
+        
         questionLabel.font = UIFont.body
         questionLabel.textColor = UIColor.label
         questionLabel.numberOfLines = 0
@@ -75,6 +94,9 @@ extension QuestionViewController {
         view.addSubview(masteredButton)
     }
     private func configureConstraints() {
+        spinnerView.snp.remakeConstraints { make in
+            make.center.equalToSuperview()
+        }
         questionLabel.snp.remakeConstraints { make in
             make.top.equalTo(view.layoutMarginsGuide).inset(Constants.spacing.enormous)
             make.leading.trailing.equalTo(view.layoutMarginsGuide)
@@ -106,7 +128,7 @@ extension QuestionViewController {
         Observable
             .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(QuizOption.self))
             .subscribe { indexPath, item in
-                self.viewModel.didSelect(item)
+                self.viewModel.didSelect(item, at: indexPath)
                 self.tableView.deselectRow(at: indexPath, animated: true)
             }
             .disposed(by: disposeBag)
@@ -119,8 +141,10 @@ extension QuestionViewController {
                     self.spinnerView.isHidden = false
                 case .unanswered:
                     self.spinnerView.isHidden = true
-                case .answeredWrongly, .answeredCorrectly:
-                    self.revealAnswer()
+                case .answeredCorrectly:
+                    self.displayFeedback(isCorrect: true)
+                case .answeredWrongly:
+                    self.displayFeedback(isCorrect: false)
                 default:
                     return
                 }
