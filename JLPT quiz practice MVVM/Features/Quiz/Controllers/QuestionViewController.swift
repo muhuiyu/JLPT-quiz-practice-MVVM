@@ -33,9 +33,22 @@ class QuestionViewController: ViewController {
 }
 // MARK: - Action
 extension QuestionViewController {
-    private func revealAnswer() {
-        if let cells = self.tableView.visibleCells as? [OptionCell] {
-            cells.forEach { $0.viewModel.isAnswerRevealed.accept(true) }
+    private func displayFeedback(isCorrect: Bool) {
+        // 1. highlight selected item
+        guard
+            let selectedOptionIndexPath = viewModel.selectionOptionIndexPath,
+            let selectedCell = self.tableView.cellForRow(at: selectedOptionIndexPath) as? OptionCell
+        else { return }
+        selectedCell.viewModel.isAnswerRevealed.accept(true)
+        
+        // 2. highlight correct answer
+        if !isCorrect {
+            if let cells = self.tableView.visibleCells as? [OptionCell] {
+                for cell in cells {
+                    guard let option = cell.viewModel.option.value else { continue }
+                    if option.isAnswer { cell.viewModel.isAnswerRevealed.accept(true) }
+                }
+            }
         }
         self.nextButton.isHidden = false
         self.masteredButton.isHidden = false
@@ -106,7 +119,7 @@ extension QuestionViewController {
         Observable
             .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(QuizOption.self))
             .subscribe { indexPath, item in
-                self.viewModel.didSelect(item)
+                self.viewModel.didSelect(item, at: indexPath)
                 self.tableView.deselectRow(at: indexPath, animated: true)
             }
             .disposed(by: disposeBag)
@@ -119,8 +132,10 @@ extension QuestionViewController {
                     self.spinnerView.isHidden = false
                 case .unanswered:
                     self.spinnerView.isHidden = true
-                case .answeredWrongly, .answeredCorrectly:
-                    self.revealAnswer()
+                case .answeredCorrectly:
+                    self.displayFeedback(isCorrect: true)
+                case .answeredWrongly:
+                    self.displayFeedback(isCorrect: false)
                 default:
                     return
                 }

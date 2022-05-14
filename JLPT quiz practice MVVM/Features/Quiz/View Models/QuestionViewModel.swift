@@ -18,6 +18,8 @@ class QuestionViewModel {
     var quizID: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayQuestionString: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayOptions: BehaviorRelay<[OptionSection]> = BehaviorRelay(value: [])
+    var selectionOptionIndexPath: IndexPath?
+    
     var selectedOptionEntryID: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     
     var state: BehaviorRelay<State> = BehaviorRelay(value: .loading)
@@ -67,16 +69,26 @@ extension QuestionViewModel {
 }
 
 extension QuestionViewModel {
-    func didSelect(_ option: QuizOption) {
-        let isCorrect = option.isAnswer
-        self.state.accept( isCorrect ? .answeredCorrectly : .answeredWrongly )
-        FirebaseDataSource.shared.updateQuestionAttemptRecord(for: quizID.value, answer: isCorrect) { result in
-            switch result {
-            case .success:
-                return
-            case .failure(let error):
-                print(error)
+    func didSelect(_ option: QuizOption, at indexPath: IndexPath) {
+        switch state.value {
+        case .unanswered:
+            let isCorrect = option.isAnswer
+            self.selectionOptionIndexPath = indexPath
+            self.state.accept(isCorrect ? .answeredCorrectly : .answeredWrongly)
+            
+            FirebaseDataSource.shared.updateQuestionAttemptRecord(for: quizID.value, answer: isCorrect) { result in
+                switch result {
+                case .success:
+                    return
+                case .failure(let error):
+                    print(error)
+                }
             }
+        case .answeredCorrectly, .answeredWrongly:
+            // display details page
+            return
+        default:
+            return
         }
     }
     func didRequestGoNextQuestion() {
