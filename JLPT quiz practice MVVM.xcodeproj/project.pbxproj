@@ -25,6 +25,14 @@
 		E46125CD282DBED800D3DBED /* UserStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125CC282DBED800D3DBED /* UserStats.swift */; };
 		E46125CF282E96F800D3DBED /* QuestionAttemptRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125CE282E96F800D3DBED /* QuestionAttemptRecord.swift */; };
 		E46125D1282F17DA00D3DBED /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125D0282F17DA00D3DBED /* Item.swift */; };
+		E46125D628300F2300D3DBED /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125D528300F2300D3DBED /* BookmarkViewController.swift */; };
+		E46125D82830101E00D3DBED /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125D72830101E00D3DBED /* BookmarkViewModel.swift */; };
+		E46125DA2830129200D3DBED /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125D92830129200D3DBED /* Bookmark.swift */; };
+		E46125DD28301EA600D3DBED /* BookmarkDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125DC28301EA600D3DBED /* BookmarkDataSource.swift */; };
+		E46125DF28301EF500D3DBED /* BookmarkSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125DE28301EF500D3DBED /* BookmarkSection.swift */; };
+		E46125E1283023FF00D3DBED /* BookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125E0283023FF00D3DBED /* BookmarkCell.swift */; };
+		E46125E32830244B00D3DBED /* BookmarkCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125E22830244B00D3DBED /* BookmarkCellViewModel.swift */; };
+		E46125E5283076B900D3DBED /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125E4283076B900D3DBED /* Entry.swift */; };
 		E4A5E18D281853A7007C73DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18C281853A7007C73DE /* AppDelegate.swift */; };
 		E4A5E18F281853A7007C73DE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18E281853A7007C73DE /* SceneDelegate.swift */; };
 		E4A5E196281853A8007C73DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4A5E195281853A8007C73DE /* Assets.xcassets */; };
@@ -111,6 +119,14 @@
 		E46125CC282DBED800D3DBED /* UserStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStats.swift; sourceTree = "<group>"; };
 		E46125CE282E96F800D3DBED /* QuestionAttemptRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionAttemptRecord.swift; sourceTree = "<group>"; };
 		E46125D0282F17DA00D3DBED /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		E46125D528300F2300D3DBED /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
+		E46125D72830101E00D3DBED /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
+		E46125D92830129200D3DBED /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
+		E46125DC28301EA600D3DBED /* BookmarkDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDataSource.swift; sourceTree = "<group>"; };
+		E46125DE28301EF500D3DBED /* BookmarkSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkSection.swift; sourceTree = "<group>"; };
+		E46125E0283023FF00D3DBED /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
+		E46125E22830244B00D3DBED /* BookmarkCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCellViewModel.swift; sourceTree = "<group>"; };
+		E46125E4283076B900D3DBED /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		E4A5E189281853A7007C73DE /* JLPT quiz practice MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JLPT quiz practice MVVM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4A5E18C281853A7007C73DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4A5E18E281853A7007C73DE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -263,6 +279,7 @@
 		E46125D2282F613700D3DBED /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E46125D528300F2300D3DBED /* BookmarkViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -270,6 +287,8 @@
 		E46125D3282F613D00D3DBED /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				E46125D72830101E00D3DBED /* BookmarkViewModel.swift */,
+				E46125E22830244B00D3DBED /* BookmarkCellViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -277,8 +296,18 @@
 		E46125D4282F614200D3DBED /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E46125E0283023FF00D3DBED /* BookmarkCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		E46125DB28301E8D00D3DBED /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				E46125DC28301EA600D3DBED /* BookmarkDataSource.swift */,
+				E46125DE28301EF500D3DBED /* BookmarkSection.swift */,
+			);
+			path = "Data Source";
 			sourceTree = "<group>";
 		};
 		E4A5E180281853A7007C73DE = {
@@ -387,12 +416,14 @@
 			isa = PBXGroup;
 			children = (
 				E46125D0282F17DA00D3DBED /* Item.swift */,
+				E46125E4283076B900D3DBED /* Entry.swift */,
 				E4A5E1F12818547F007C73DE /* Grammar.swift */,
 				E4A5E2212818C3BD007C73DE /* Vocab.swift */,
 				E4A5E21F2818C3B6007C73DE /* Kanji.swift */,
 				E4A5E1F32818548E007C73DE /* Quiz.swift */,
 				E46125CC282DBED800D3DBED /* UserStats.swift */,
 				E46125CE282E96F800D3DBED /* QuestionAttemptRecord.swift */,
+				E46125D92830129200D3DBED /* Bookmark.swift */,
 				E4A5E21A2818813F007C73DE /* FirebaseDataSource.swift */,
 			);
 			path = Models;
@@ -424,6 +455,7 @@
 		E4A5E1F628185521007C73DE /* Bookmark */ = {
 			isa = PBXGroup;
 			children = (
+				E46125DB28301E8D00D3DBED /* Data Source */,
 				E46125D4282F614200D3DBED /* Views */,
 				E46125D3282F613D00D3DBED /* View Models */,
 				E46125D2282F613700D3DBED /* Controllers */,
@@ -644,12 +676,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E46125E5283076B900D3DBED /* Entry.swift in Sources */,
 				E4501A7C2824681500DD802B /* OptionCell.swift in Sources */,
 				E46125CF282E96F800D3DBED /* QuestionAttemptRecord.swift in Sources */,
 				E4A5E1EA28185464007C73DE /* UILabel+setLineHeight.swift in Sources */,
 				E4A5E1E028185464007C73DE /* String+convertEmojiToImage.swift in Sources */,
 				E4D09ED2282B35BB00AE7C50 /* WelcomeViewModel.swift in Sources */,
 				E4A5E1F42818548E007C73DE /* Quiz.swift in Sources */,
+				E46125E32830244B00D3DBED /* BookmarkCellViewModel.swift in Sources */,
 				E4A5E1DA28185464007C73DE /* RoundButton.swift in Sources */,
 				E4A5E1E128185464007C73DE /* UIImageView+loadImageUsingURL.swift in Sources */,
 				E4496DE928274E21006CD4A1 /* OptionDetailViewController.swift in Sources */,
@@ -659,6 +693,7 @@
 				E4A5E1E828185464007C73DE /* Date+BeforeAfter.swift in Sources */,
 				E4A5E21B2818813F007C73DE /* FirebaseDataSource.swift in Sources */,
 				E4A5E1E428185464007C73DE /* UIViewController+Keyboard.swift in Sources */,
+				E46125DF28301EF500D3DBED /* BookmarkSection.swift in Sources */,
 				E4A5E18D281853A7007C73DE /* AppDelegate.swift in Sources */,
 				E4501A88282484A800DD802B /* OptionDataSource.swift in Sources */,
 				E4A5E2202818C3B6007C73DE /* Kanji.swift in Sources */,
@@ -671,6 +706,7 @@
 				E4A5E1E628185464007C73DE /* UIStack+RemoveAll.swift in Sources */,
 				E4A5E1EB28185464007C73DE /* UIViewController+Utils.swift in Sources */,
 				E4501A7E2824687900DD802B /* QuestionViewModel.swift in Sources */,
+				E46125D628300F2300D3DBED /* BookmarkViewController.swift in Sources */,
 				E4D09ECC282B2D8900AE7C50 /* AuthenticationViewModel.swift in Sources */,
 				E46125D1282F17DA00D3DBED /* Item.swift in Sources */,
 				E4A5E1ED28185464007C73DE /* Double+roundToDecimalPlace.swift in Sources */,
@@ -681,6 +717,7 @@
 				E4A5E1E228185464007C73DE /* UIColor+hex.swift in Sources */,
 				E4A5E1FD2818554B007C73DE /* HomeViewController.swift in Sources */,
 				E4D09ECD282B2D8900AE7C50 /* WelcomeViewController.swift in Sources */,
+				E46125E1283023FF00D3DBED /* BookmarkCell.swift in Sources */,
 				E4A5E1EE28185464007C73DE /* String+convertFromHTMLToAttributedString.swift in Sources */,
 				E4A5E1DC28185464007C73DE /* TextButton.swift in Sources */,
 				E4501A752823616000DD802B /* SpinnerView.swift in Sources */,
@@ -688,11 +725,14 @@
 				E4A5E21528187517007C73DE /* QuizConfigViewModel.swift in Sources */,
 				E4A5E1DB28185464007C73DE /* CircleView.swift in Sources */,
 				E4A5E1DE28185464007C73DE /* UIFont+Theme.swift in Sources */,
+				E46125DA2830129200D3DBED /* Bookmark.swift in Sources */,
 				E4A5E1DF28185464007C73DE /* UIView+fadein.swift in Sources */,
 				E4501A8A2824853B00DD802B /* OptionCellViewModel.swift in Sources */,
 				E4A5E1D728185464007C73DE /* Constants.swift in Sources */,
+				E46125D82830101E00D3DBED /* BookmarkViewModel.swift in Sources */,
 				E4A5E21928187FAC007C73DE /* SessionViewModel.swift in Sources */,
 				E4A5E1E728185464007C73DE /* UIView+roundCorners.swift in Sources */,
+				E46125DD28301EA600D3DBED /* BookmarkDataSource.swift in Sources */,
 				E4501A78282361A000DD802B /* ProgressBarView.swift in Sources */,
 				E46125CD282DBED800D3DBED /* UserStats.swift in Sources */,
 				E4A5E1E528185464007C73DE /* Date+startOfMonth.swift in Sources */,

@@ -9,7 +9,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseFirestoreCombineSwift
 
-struct Kanji: Identifiable, Codable, FirebaseFetchable {
+struct Kanji: Identifiable, Codable, FirebaseFetchable, Entry {
     @DocumentID var id: String?
     var title: String
     var meaning: String

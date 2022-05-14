@@ -17,7 +17,6 @@ class OptionCellViewModel {
     var option: BehaviorRelay<QuizOption?> = BehaviorRelay(value: nil)
     var isAnswerRevealed: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     var displayTitle: BehaviorRelay<String> = BehaviorRelay(value: "")
-    var buttonTapHandler: (() -> Void)?
     var displayButtonString: String { return "View More" }
     
     init() {

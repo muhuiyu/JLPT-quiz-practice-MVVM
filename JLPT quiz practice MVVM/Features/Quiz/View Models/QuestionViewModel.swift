@@ -14,7 +14,7 @@ class QuestionViewModel {
     private let disposeBag = DisposeBag()
     private var quiz: BehaviorRelay<Quiz?> = BehaviorRelay(value: nil)
     
-    lazy var dataSource = OptionDataSource.dataSource(self)
+    lazy var dataSource = OptionDataSource.dataSource()
     var quizID: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayQuestionString: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayOptions: BehaviorRelay<[OptionSection]> = BehaviorRelay(value: [])
@@ -56,8 +56,7 @@ class QuestionViewModel {
             .subscribe(onNext: { value in
                 if let value = value {
                     self.displayQuestionString.accept(value.question)
-                    let optionSection = OptionSection(header: "", items: value.options)
-                    self.displayOptions.accept([optionSection])
+                    self.displayOptions.accept([OptionSection(header: "", items: value.options)])
                 }
             })
             .disposed(by: disposeBag)

@@ -82,9 +82,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
     private func setViewControllers() -> UIViewController {
         let homeViewController = HomeViewController()
+        let bookmarkViewController = BookmarkViewController()
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [
-            homeViewController.embedInNavgationController()
+            homeViewController.embedInNavgationController(),
+            bookmarkViewController.embedInNavgationController()
         ]
         return tabBarController
     }
