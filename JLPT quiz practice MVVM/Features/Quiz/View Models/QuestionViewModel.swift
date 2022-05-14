@@ -35,13 +35,14 @@ class QuestionViewModel {
             .asObservable()
             .subscribe(onNext: { value in
                 if value != "" {
-                    FirebaseDataSource.shared.fetchQuiz(atID: value) { quiz, error in
-                        if let error = error {
+                    FirebaseDataSource.shared.fetch(as: Quiz.self, from: Quiz.collectionName, for: value) { result in
+                        switch result {
+                        case .success(let quiz):
+                            self.state.accept(.unanswered)
+                            self.quiz.accept(quiz)
+                        case .failure(let error):
                             print(error)
-                            return
                         }
-                        self.state.accept(.unanswered)
-                        self.quiz.accept(quiz)
                     }
                 }
             })
@@ -67,7 +68,16 @@ extension QuestionViewModel {
 
 extension QuestionViewModel {
     func didSelect(_ option: QuizOption) {
-        self.state.accept( option.isAnswer ? .answeredCorrectly : .answeredWrongly )
+        let isCorrect = option.isAnswer
+        self.state.accept( isCorrect ? .answeredCorrectly : .answeredWrongly )
+        FirebaseDataSource.shared.updateUserStats(for: quizID.value, didUserAnswerCorrectly: isCorrect) { result in
+            switch result {
+            case .success:
+                return
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     func didRequestGoNextQuestion() {
         self.state.accept(.didTapContinue)

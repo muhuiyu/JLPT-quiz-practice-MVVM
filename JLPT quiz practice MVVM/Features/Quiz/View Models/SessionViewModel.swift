@@ -64,7 +64,9 @@ extension SessionViewModel {
     func questionViewController() -> QuestionViewController {
         let viewController = QuestionViewController()
         let viewModel = QuestionViewModel()
-        viewModel.quizID.accept(quizIDs.value[currentIndex])
+        if let id = quizIDs.value[currentIndex] {
+            viewModel.quizID.accept(id)
+        }
         viewModel.state
             .asObservable()
             .subscribe(onNext: { state in

@@ -6,14 +6,17 @@
 //
 
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseFirestoreCombineSwift
 
 struct Quiz: Identifiable, Codable {
-    let id: String
-    let question: String
-    let type: QuizType
-    let level: QuizLevel
-    let options: [QuizOption]
+    @DocumentID var id: String?
+    var question: String
+    var type: QuizType
+    var level: QuizLevel
+    var options: [QuizOption]
+    
+    static let collectionName = "quizzes"
     
     private struct QuizData: Codable {
         let question: String
@@ -46,7 +49,6 @@ struct Quiz: Identifiable, Codable {
     }
     
     init(snapshot: DocumentSnapshot) throws {
-        id = snapshot.documentID
         let data = try snapshot.data(as: QuizData.self)
         question = data.question
         options = data.options.shuffled()

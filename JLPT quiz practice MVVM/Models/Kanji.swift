@@ -6,12 +6,15 @@
 //
 
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseFirestoreCombineSwift
 
 struct Kanji: Identifiable, Codable {
-    let id: String
-    let title: String
-    let meaning: String
+    @DocumentID var id: String?
+    var title: String
+    var meaning: String
+    
+    static let collectionName = "kanjis"
     
     private struct KanjiData: Codable {
         let title: String
@@ -36,7 +39,6 @@ struct Kanji: Identifiable, Codable {
     }
     
     init?(snapshot: DocumentSnapshot) throws {
-        id = snapshot.documentID
         let data = try snapshot.data(as: Kanji.self)
         title = data.title
         meaning = data.meaning
@@ -51,6 +53,7 @@ struct Kanji: Identifiable, Codable {
 
 extension Kanji {
     static let testEntries: [Kanji] = [
-        Kanji(id: "kanji-kimi", title: "君", meaning: "you")
+        Kanji(id: "kanji-kimi", title: "君", meaning: "you"),
+        Kanji(id: "kanji-koi", title: "恋", meaning: "love")
     ]
 }

@@ -6,28 +6,26 @@
 //
 
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
-struct UserQuestionStats: Codable, Identifiable {
-    let id: String
-    let quizID: String
-    let level: QuizLevel
-    let type: QuizType
-    let numberOfAttempts: Int
-    let numberOfSuccess: Int
-    let isMastered: Bool
+struct QuestionAttemptRecord: Codable, Identifiable {
+    @DocumentID var id: String?
+    var quizID: String
+    var userID: String
+    var numberOfAttempts: Int
+    var numberOfSuccess: Int
+    var isMastered: Bool
     
     private struct UserQuestionStatsData: Codable {
         let quizID: String
-        let level: QuizLevel
-        let type: QuizType
+        let userID: String
         let numberOfAttempts: Int
         let numberOfSuccess: Int
         let isMastered: Bool
         
         private enum CodingKeys: String, CodingKey {
             case quizID
-            case level
-            case type
+            case userID
             case numberOfAttempts
             case numberOfSuccess
             case isMastered
@@ -36,8 +34,7 @@ struct UserQuestionStats: Codable, Identifiable {
         init(from decoder: Decoder) throws {
             var container = try decoder.container(keyedBy: CodingKeys.self)
             quizID = try container.decode(String.self, forKey: .quizID)
-            level = try container.decode(QuizLevel.self, forKey: .level)
-            type = try container.decode(QuizType.self, forKey: .type)
+            userID = try container.decode(String.self, forKey: .userID)
             numberOfAttempts = try container.decode(Int.self, forKey: .numberOfAttempts)
             numberOfSuccess = try container.decode(Int.self, forKey: .numberOfSuccess)
             isMastered = try container.decode(Bool.self, forKey: .isMastered)
@@ -45,8 +42,7 @@ struct UserQuestionStats: Codable, Identifiable {
         func encode(to encoder: Encoder) throws {
             var container = try encoder.container(keyedBy: CodingKeys.self)
             try container.encode(quizID, forKey: .quizID)
-            try container.encode(level, forKey: .level)
-            try container.encode(type, forKey: .type)
+            try container.encode(userID, forKey: .userID)
             try container.encode(numberOfAttempts, forKey: .numberOfAttempts)
             try container.encode(numberOfSuccess, forKey: .numberOfSuccess)
             try container.encode(isMastered, forKey: .isMastered)
@@ -57,23 +53,31 @@ struct UserQuestionStats: Codable, Identifiable {
         id = snapshot.documentID
         let data = try snapshot.data(as: UserQuestionStatsData.self)
         quizID = data.quizID
-        level = data.level
-        type = data.type
+        userID = data.userID
         numberOfAttempts = data.numberOfAttempts
         numberOfSuccess = data.numberOfSuccess
         isMastered = data.isMastered
     }
+    
+    init(quizID: String, userID: String, didUserAnswerCorrectly isCorrect: Bool) {
+        id = ""
+        self.quizID = quizID
+        self.userID = userID
+        numberOfAttempts = 1
+        numberOfSuccess = isCorrect ? 1 : 0
+        isMastered = false
+    }
 }
 
-extension UserQuestionStats: Comparable {
-    static func < (lhs: UserQuestionStats, rhs: UserQuestionStats) -> Bool {
+extension QuestionAttemptRecord: Comparable {
+    static func < (lhs: QuestionAttemptRecord, rhs: QuestionAttemptRecord) -> Bool {
         return lhs.successRate < rhs.successRate
     }
-    static func == (lhs: UserQuestionStats, rhs: UserQuestionStats) -> Bool {
+    static func == (lhs: QuestionAttemptRecord, rhs: QuestionAttemptRecord) -> Bool {
         return lhs.successRate == rhs.successRate
     }
 }
-extension UserQuestionStats {
+extension QuestionAttemptRecord {
     var successRate: Double {
         return numberOfAttempts == 0 ? 0 : Double(numberOfSuccess) / Double(numberOfAttempts)
     }

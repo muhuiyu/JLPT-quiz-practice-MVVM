@@ -6,11 +6,15 @@
 //
 
 import FirebaseFirestore
+import FirebaseFirestoreSwift
+import FirebaseFirestoreCombineSwift
 
 struct Vocab: Identifiable, Codable {
-    let id: String
-    let title: String
-    let meaning: String
+    @DocumentID var id: String?
+    var title: String
+    var meaning: String
+    
+    static let collectionName = "vocabs"
 }
 
 extension Vocab {
@@ -37,7 +41,6 @@ extension Vocab {
     }
     
     init?(snapshot: DocumentSnapshot) throws {
-        id = snapshot.documentID
         let data = try snapshot.data(as: VocabData.self)
         title = data.title
         meaning = data.meaning
