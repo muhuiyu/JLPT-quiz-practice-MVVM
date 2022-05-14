@@ -70,7 +70,7 @@ extension QuestionViewModel {
     func didSelect(_ option: QuizOption) {
         let isCorrect = option.isAnswer
         self.state.accept( isCorrect ? .answeredCorrectly : .answeredWrongly )
-        FirebaseDataSource.shared.updateUserStats(for: quizID.value, didUserAnswerCorrectly: isCorrect) { result in
+        FirebaseDataSource.shared.updateQuestionAttemptRecord(for: quizID.value, answer: isCorrect) { result in
             switch result {
             case .success:
                 return
@@ -89,4 +89,3 @@ extension QuestionViewModel {
         
     }
 }
-

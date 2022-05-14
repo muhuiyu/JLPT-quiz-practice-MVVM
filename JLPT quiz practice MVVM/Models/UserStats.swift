@@ -8,11 +8,13 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct UserStats: Codable, Identifiable {
+struct UserStats: Codable, Identifiable, FirebaseFetchable {
     @DocumentID var id: String?
     var streakDays: Int
     var numberOfAnsweredQuestions: Int
     var exp: Int
+    
+    static let collectionName: String = "userStats"
     
     private struct UserStatsData: Codable {
         let streakDays: Int

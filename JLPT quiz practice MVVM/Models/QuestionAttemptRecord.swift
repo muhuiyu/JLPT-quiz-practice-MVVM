@@ -8,13 +8,15 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct QuestionAttemptRecord: Codable, Identifiable {
+struct QuestionAttemptRecord: Codable, Identifiable, FirebaseFetchable {
     @DocumentID var id: String?
     var quizID: String
     var userID: String
     var numberOfAttempts: Int
     var numberOfSuccess: Int
     var isMastered: Bool
+    
+    static var collectionName: String = "questionAttemptRecords"
     
     private struct UserQuestionStatsData: Codable {
         let quizID: String
@@ -32,7 +34,7 @@ struct QuestionAttemptRecord: Codable, Identifiable {
         }
         
         init(from decoder: Decoder) throws {
-            var container = try decoder.container(keyedBy: CodingKeys.self)
+            let container = try decoder.container(keyedBy: CodingKeys.self)
             quizID = try container.decode(String.self, forKey: .quizID)
             userID = try container.decode(String.self, forKey: .userID)
             numberOfAttempts = try container.decode(Int.self, forKey: .numberOfAttempts)
@@ -40,7 +42,7 @@ struct QuestionAttemptRecord: Codable, Identifiable {
             isMastered = try container.decode(Bool.self, forKey: .isMastered)
         }
         func encode(to encoder: Encoder) throws {
-            var container = try encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(quizID, forKey: .quizID)
             try container.encode(userID, forKey: .userID)
             try container.encode(numberOfAttempts, forKey: .numberOfAttempts)
@@ -59,7 +61,7 @@ struct QuestionAttemptRecord: Codable, Identifiable {
         isMastered = data.isMastered
     }
     
-    init(quizID: String, userID: String, didUserAnswerCorrectly isCorrect: Bool) {
+    init(quizID: String, userID: String, answer isCorrect: Bool) {
         id = ""
         self.quizID = quizID
         self.userID = userID

@@ -14,19 +14,8 @@ public enum VoidResult {
 }
 
 class FirebaseDataSource: NSObject {
-    
     static let shared = FirebaseDataSource()
     
-    struct CollectionName {
-        static let quizzes = "quizzes"
-        static let kanjis = "kanjis"
-        static let vocabs = "vocabs"
-        static let grammars = "grammars"
-        static let questionAttemptRecords = "questionAttemptRecords"
-        static let userBookmarks = "userBookmarks"
-        static let users = "users"
-        static let userStats = "userStats"
-    }
     struct AttibuteKey {
         static let userID = "userID"
         static let quizID = "quizID"
@@ -65,7 +54,7 @@ extension FirebaseDataSource {
     }
     private func fetchUserStats(completion: @escaping (Result<UserStats, Error>) -> Void) {
         guard let user = Auth.auth().currentUser else { return completion(.failure(FirebaseError.userMissing)) }
-        let ref = Firestore.firestore().collection(CollectionName.userStats)
+        let ref = Firestore.firestore().collection(UserStats.collectionName)
         
         ref.whereField(AttibuteKey.userID, isEqualTo: user.uid).getDocuments { snapshot, error in
             if let error = error {
@@ -107,7 +96,7 @@ extension FirebaseDataSource {
 extension FirebaseDataSource {
     /// Fetch all quizzes based on user query (level and type)
     private func fetchQuizIDs(with configuration: QuizConfig, completion: @escaping (Result<[String], Error>) -> Void) {
-        var ref: Query = Firestore.firestore().collection(CollectionName.quizzes)
+        var ref: Query = Firestore.firestore().collection(Quiz.collectionName)
         
         if configuration.level != .all { ref = ref.whereField(AttibuteKey.level, isEqualTo: configuration.level.rawValue) }
         if configuration.type != .mixed { ref = ref.whereField(AttibuteKey.type, isEqualTo: configuration.type.rawValue) }
@@ -127,7 +116,7 @@ extension FirebaseDataSource {
     /// Fetch past question result (question answered, question mastered) of current user based on user query
     private func fetchPastQuestionResult(with configuration: QuizConfig, callback: @escaping (_ answeredQuizIDs: [String], _ skippedQuizIDs: [String], _ error: Error?) -> Void) {
         guard let user = Auth.auth().currentUser else { return callback([], [], FirebaseError.userMissing) }
-        var ref = Firestore.firestore().collection(CollectionName.questionAttemptRecords).whereField(AttibuteKey.userID, isEqualTo: user.uid)
+        var ref = Firestore.firestore().collection(QuestionAttemptRecord.collectionName).whereField(AttibuteKey.userID, isEqualTo: user.uid)
 
         if configuration.level != .all { ref = ref.whereField(AttibuteKey.level, isEqualTo: configuration.level.rawValue) }
         if configuration.type != .mixed { ref = ref.whereField(AttibuteKey.type, isEqualTo: configuration.type.rawValue) }
@@ -220,17 +209,17 @@ extension FirebaseDataSource {
 }
 // MARK: - Update User Question Stats
 extension FirebaseDataSource {
-    func updateUserStats(for quizID: String, didUserAnswerCorrectly isUserCorrect: Bool, completion: @escaping (VoidResult) -> Void) {
+    /// Update question attempt record after user answered the question
+    func updateQuestionAttemptRecord(for quizID: String, answer isCorrect: Bool, completion: @escaping (VoidResult) -> Void) {
         guard let user = Auth.auth().currentUser else { return completion(.failure(FirebaseError.userMissing)) }
-        let collectionRef = Firestore.firestore().collection(CollectionName.questionAttemptRecords)
+        let collectionRef = Firestore.firestore().collection(QuestionAttemptRecord.collectionName)
         
         collectionRef.whereField(AttibuteKey.userID, isEqualTo: user.uid).whereField(AttibuteKey.quizID, isEqualTo: quizID).getDocuments { snapshot, error in
             if let error = error { return completion(.failure(error)) }
             guard let changes = snapshot?.documentChanges else { return completion(.failure(FirebaseError.snapshotMissing)) }
             
             if changes.isEmpty {
-                let newItem = QuestionAttemptRecord(quizID: quizID, userID: user.uid, didUserAnswerCorrectly: isUserCorrect)
-                _ = collectionRef.addDocument(from: newItem)
+                _ = collectionRef.addDocument(from: QuestionAttemptRecord(quizID: quizID, userID: user.uid, answer: isCorrect))
                 return completion(.success)
                 
             } else if changes.count == 1 {
@@ -239,7 +228,7 @@ extension FirebaseDataSource {
                     let stats = try QuestionAttemptRecord(snapshot: changes[0].document)
                     let data = [
                         AttibuteKey.numberOfAttempts: stats.numberOfAttempts + 1,
-                        AttibuteKey.numberOfSuccess: isUserCorrect ? stats.numberOfSuccess + 1 : stats.numberOfSuccess
+                        AttibuteKey.numberOfSuccess: isCorrect ? stats.numberOfSuccess + 1 : stats.numberOfSuccess
                     ]
                     documentRef.updateData(data) { error in
                         if let error = error { return completion(.failure(error)) }
@@ -248,6 +237,21 @@ extension FirebaseDataSource {
                 } catch {
                     return completion(.failure(FirebaseError.entryInitFailure))
                 }
+            }
+        }
+    }
+    /// Mark question as mastered
+    func markQuestionAsMastered(for quizID: String, completion: @escaping (VoidResult) -> Void) {
+        guard let user = Auth.auth().currentUser else { return completion(.failure(FirebaseError.userMissing)) }
+        let collectionRef = Firestore.firestore().collection(QuestionAttemptRecord.collectionName)
+        collectionRef.whereField(AttibuteKey.userID, isEqualTo: user.uid).whereField(AttibuteKey.quizID, isEqualTo: quizID).getDocuments { snapshot, error in
+            if let error = error { return completion(.failure(error)) }
+            guard let changes = snapshot?.documentChanges, changes.count == 1 else {
+                return completion(.failure(FirebaseError.snapshotMissing))
+            }
+            collectionRef.document(changes[0].document.documentID).updateData([AttibuteKey.isMastered: true]) { error in
+                if let error = error { return completion(.failure(error)) }
+                return completion(.success)
             }
         }
     }
