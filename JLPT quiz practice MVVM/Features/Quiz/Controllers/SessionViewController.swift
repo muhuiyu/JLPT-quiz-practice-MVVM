@@ -50,6 +50,9 @@ extension SessionViewController {
     private func didTapDismiss() {
         viewModel.state.accept(.endSession)
     }
+    private func displayDetails() {
+        
+    }
 }
 // MARK: - View Config
 extension SessionViewController {
@@ -104,7 +107,7 @@ extension SessionViewController {
                 case .loadQuestion:
                     self.updateCurrentPage()
                 case .loadDetail:
-                    return
+                    self.displayDetails()
                 case .presentSessionSummary:
                     self.presentSessionSummaryAlert()
                 case .endSession:

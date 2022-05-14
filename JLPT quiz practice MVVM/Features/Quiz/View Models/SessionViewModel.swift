@@ -45,13 +45,16 @@ extension SessionViewModel {
 }
 
 extension SessionViewModel {
-    func didTapContinue() {
+    private func didTapContinue() {
         if isSessionCompleted {
             state.accept(.presentSessionSummary)
         } else {
             currentIndex += 1
             state.accept(.loadQuestion)
         }
+    }
+    private func didRequestDetails() {
+        state.accept(.loadDetail)
     }
     private var isSessionCompleted: Bool {
         return currentIndex == quizIDs.value.count - 1
@@ -75,6 +78,8 @@ extension SessionViewModel {
                     self.didTapContinue()
                 case .answeredCorrectly:
                     self.numberOfCorrectAnswers += 1
+                case .didReqestExplanation:
+                    self.didRequestDetails()
                 default:
                     return
                 }

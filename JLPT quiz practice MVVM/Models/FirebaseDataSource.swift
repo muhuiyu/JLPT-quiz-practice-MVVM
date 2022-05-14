@@ -240,7 +240,7 @@ extension FirebaseDataSource {
             }
         }
     }
-    /// Mark question as mastered
+    /// Update question attempt record after user answered the question
     func markQuestionAsMastered(for quizID: String, completion: @escaping (VoidResult) -> Void) {
         guard let user = Auth.auth().currentUser else { return completion(.failure(FirebaseError.userMissing)) }
         let collectionRef = Firestore.firestore().collection(QuestionAttemptRecord.collectionName)

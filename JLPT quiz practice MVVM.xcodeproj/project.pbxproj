@@ -260,6 +260,27 @@
 			path = "Data Source";
 			sourceTree = "<group>";
 		};
+		E46125D2282F613700D3DBED /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E46125D3282F613D00D3DBED /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		E46125D4282F614200D3DBED /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		E4A5E180281853A7007C73DE = {
 			isa = PBXGroup;
 			children = (
@@ -403,6 +424,9 @@
 		E4A5E1F628185521007C73DE /* Bookmark */ = {
 			isa = PBXGroup;
 			children = (
+				E46125D4282F614200D3DBED /* Views */,
+				E46125D3282F613D00D3DBED /* View Models */,
+				E46125D2282F613700D3DBED /* Controllers */,
 			);
 			path = Bookmark;
 			sourceTree = "<group>";
