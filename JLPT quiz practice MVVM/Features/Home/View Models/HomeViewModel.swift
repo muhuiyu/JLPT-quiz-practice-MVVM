@@ -31,12 +31,14 @@ class HomeViewModel {
 extension HomeViewModel {
     func getQuizViewController(with configuration: QuizConfig, callback: @escaping (_ viewController: SessionViewController, _ error: Error?) -> Void) {
         let viewController = SessionViewController()
-        FirebaseDataSource.shared.generateQuizList(with: configuration) { quizIDs, error in
-            if let error = error {
+        FirebaseDataSource.shared.generateQuizList(with: configuration) { result in
+            switch result {
+            case .success(let quizIDs):
+                viewController.viewModel.quizIDs.accept(quizIDs)
+                return callback(viewController, nil)
+            case .failure(let error):
                 return callback(viewController, error)
             }
-            viewController.viewModel.quizIDs.accept(quizIDs)
-            return callback(viewController, nil)
-        }        
+        }
     }
 }

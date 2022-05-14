@@ -6,12 +6,13 @@
 //
 
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct UserStats: Codable, Identifiable {
-    let id: String
-    let streakDays: Int
-    let numberOfAnsweredQuestions: Int
-    let exp: Int
+    @DocumentID var id: String?
+    var streakDays: Int
+    var numberOfAnsweredQuestions: Int
+    var exp: Int
     
     private struct UserStatsData: Codable {
         let streakDays: Int
@@ -39,7 +40,6 @@ struct UserStats: Codable, Identifiable {
     }
     
     init(snapshot: DocumentSnapshot) throws {
-        id = snapshot.documentID
         let data = try snapshot.data(as: UserStatsData.self)
         streakDays = data.streakDays
         numberOfAnsweredQuestions = data.numberOfAnsweredQuestions

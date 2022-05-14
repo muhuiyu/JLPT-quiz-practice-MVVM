@@ -23,7 +23,8 @@
 		E4501A88282484A800DD802B /* OptionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4501A87282484A800DD802B /* OptionDataSource.swift */; };
 		E4501A8A2824853B00DD802B /* OptionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4501A892824853B00DD802B /* OptionCellViewModel.swift */; };
 		E46125CD282DBED800D3DBED /* UserStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125CC282DBED800D3DBED /* UserStats.swift */; };
-		E46125CF282E96F800D3DBED /* UserQuestionStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125CE282E96F800D3DBED /* UserQuestionStats.swift */; };
+		E46125CF282E96F800D3DBED /* QuestionAttemptRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125CE282E96F800D3DBED /* QuestionAttemptRecord.swift */; };
+		E46125D1282F17DA00D3DBED /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125D0282F17DA00D3DBED /* Item.swift */; };
 		E4A5E18D281853A7007C73DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18C281853A7007C73DE /* AppDelegate.swift */; };
 		E4A5E18F281853A7007C73DE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18E281853A7007C73DE /* SceneDelegate.swift */; };
 		E4A5E196281853A8007C73DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4A5E195281853A8007C73DE /* Assets.xcassets */; };
@@ -108,7 +109,8 @@
 		E4501A87282484A800DD802B /* OptionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionDataSource.swift; sourceTree = "<group>"; };
 		E4501A892824853B00DD802B /* OptionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCellViewModel.swift; sourceTree = "<group>"; };
 		E46125CC282DBED800D3DBED /* UserStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStats.swift; sourceTree = "<group>"; };
-		E46125CE282E96F800D3DBED /* UserQuestionStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserQuestionStats.swift; sourceTree = "<group>"; };
+		E46125CE282E96F800D3DBED /* QuestionAttemptRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionAttemptRecord.swift; sourceTree = "<group>"; };
+		E46125D0282F17DA00D3DBED /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		E4A5E189281853A7007C73DE /* JLPT quiz practice MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JLPT quiz practice MVVM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4A5E18C281853A7007C73DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4A5E18E281853A7007C73DE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -363,12 +365,13 @@
 		E4A5E1EF28185467007C73DE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E46125D0282F17DA00D3DBED /* Item.swift */,
 				E4A5E1F12818547F007C73DE /* Grammar.swift */,
 				E4A5E2212818C3BD007C73DE /* Vocab.swift */,
 				E4A5E21F2818C3B6007C73DE /* Kanji.swift */,
 				E4A5E1F32818548E007C73DE /* Quiz.swift */,
 				E46125CC282DBED800D3DBED /* UserStats.swift */,
-				E46125CE282E96F800D3DBED /* UserQuestionStats.swift */,
+				E46125CE282E96F800D3DBED /* QuestionAttemptRecord.swift */,
 				E4A5E21A2818813F007C73DE /* FirebaseDataSource.swift */,
 			);
 			path = Models;
@@ -618,7 +621,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4501A7C2824681500DD802B /* OptionCell.swift in Sources */,
-				E46125CF282E96F800D3DBED /* UserQuestionStats.swift in Sources */,
+				E46125CF282E96F800D3DBED /* QuestionAttemptRecord.swift in Sources */,
 				E4A5E1EA28185464007C73DE /* UILabel+setLineHeight.swift in Sources */,
 				E4A5E1E028185464007C73DE /* String+convertEmojiToImage.swift in Sources */,
 				E4D09ED2282B35BB00AE7C50 /* WelcomeViewModel.swift in Sources */,
@@ -645,6 +648,7 @@
 				E4A5E1EB28185464007C73DE /* UIViewController+Utils.swift in Sources */,
 				E4501A7E2824687900DD802B /* QuestionViewModel.swift in Sources */,
 				E4D09ECC282B2D8900AE7C50 /* AuthenticationViewModel.swift in Sources */,
+				E46125D1282F17DA00D3DBED /* Item.swift in Sources */,
 				E4A5E1ED28185464007C73DE /* Double+roundToDecimalPlace.swift in Sources */,
 				E4A5E21728187616007C73DE /* SessionViewController.swift in Sources */,
 				E4A5E1E928185464007C73DE /* UIViewController+Toast.swift in Sources */,
