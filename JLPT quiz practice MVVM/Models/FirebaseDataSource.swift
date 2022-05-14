@@ -85,10 +85,13 @@ extension FirebaseDataSource {
 }
 
 // MARK: - Fetch items by IDs
+protocol FirebaseFetchable: Decodable {
+    static var collectionName: String { get }
+}
 extension FirebaseDataSource {
-    func fetch<T: Decodable>(as type: T.Type, from collection: String, for id: String?, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetch<T: FirebaseFetchable>(_ type: T.Type, for id: String?, completion: @escaping (Result<T, Error>) -> Void) {
         guard let id = id else { return completion(.failure(FirebaseError.invalidDocumentID)) }
-        let ref = Firestore.firestore().collection(collection).document(id)
+        let ref = Firestore.firestore().collection(type.collectionName).document(id)
         ref.getDocument(as: T.self) { result in
             switch result {
             case .success(let entry):
@@ -139,7 +142,7 @@ extension FirebaseDataSource {
                 .compactMap { try? QuestionAttemptRecord(snapshot: $0.document) }
             
             // 50% possilibity to return quizzes which user answered wrongly
-            if Bool.random() {
+            if arc4random_uniform(100) < 50 {
                 questionStatsRawData.sort()
             } else {
                 questionStatsRawData.shuffle()
@@ -219,30 +222,29 @@ extension FirebaseDataSource {
 extension FirebaseDataSource {
     func updateUserStats(for quizID: String, didUserAnswerCorrectly isUserCorrect: Bool, completion: @escaping (VoidResult) -> Void) {
         guard let user = Auth.auth().currentUser else { return completion(.failure(FirebaseError.userMissing)) }
-        let ref = Firestore.firestore().collection(CollectionName.questionAttemptRecords)
+        let collectionRef = Firestore.firestore().collection(CollectionName.questionAttemptRecords)
         
-        ref.whereField(AttibuteKey.userID, isEqualTo: user.uid).whereField(AttibuteKey.quizID, isEqualTo: quizID).getDocuments { snapshot, error in
+        collectionRef.whereField(AttibuteKey.userID, isEqualTo: user.uid).whereField(AttibuteKey.quizID, isEqualTo: quizID).getDocuments { snapshot, error in
             if let error = error { return completion(.failure(error)) }
-            guard let snapshot = snapshot else { return completion(.failure(FirebaseError.snapshotMissing)) }
+            guard let changes = snapshot?.documentChanges else { return completion(.failure(FirebaseError.snapshotMissing)) }
             
-            if snapshot.documentChanges.isEmpty {
+            if changes.isEmpty {
                 let newItem = QuestionAttemptRecord(quizID: quizID, userID: user.uid, didUserAnswerCorrectly: isUserCorrect)
-                do {
-                    _ = try ref.addDocument(from: newItem)
-                    return completion(.success)
-                } catch let error {
-                    return completion(.failure(error))
-                }
+                _ = collectionRef.addDocument(from: newItem)
+                return completion(.success)
                 
-            } else if snapshot.documentChanges.count == 1 {
-                let documentRef = ref.document(snapshot.documentChanges[0].document.documentID)
+            } else if changes.count == 1 {
+                let documentRef = collectionRef.document(changes[0].document.documentID)
                 do {
-                    let stats = try QuestionAttemptRecord(snapshot: snapshot.documentChanges[0].document)
-                    documentRef.updateData([
+                    let stats = try QuestionAttemptRecord(snapshot: changes[0].document)
+                    let data = [
                         AttibuteKey.numberOfAttempts: stats.numberOfAttempts + 1,
                         AttibuteKey.numberOfSuccess: isUserCorrect ? stats.numberOfSuccess + 1 : stats.numberOfSuccess
-                    ])
-                    return completion(.success)
+                    ]
+                    documentRef.updateData(data) { error in
+                        if let error = error { return completion(.failure(error)) }
+                        return completion(.success)
+                    }
                 } catch {
                     return completion(.failure(FirebaseError.entryInitFailure))
                 }

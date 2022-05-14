@@ -9,7 +9,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseFirestoreCombineSwift
 
-struct Quiz: Identifiable, Codable {
+struct Quiz: Identifiable, Codable, FirebaseFetchable {
     @DocumentID var id: String?
     var question: String
     var type: QuizType
@@ -32,7 +32,7 @@ struct Quiz: Identifiable, Codable {
         }
 
         init(from decoder: Decoder) throws {
-            var container = try decoder.container(keyedBy: CodingKeys.self)
+            let container = try decoder.container(keyedBy: CodingKeys.self)
             question = try container.decode(String.self, forKey: .question)
             options = try container.decode([QuizOption].self, forKey: .options)
             type = try container.decode(QuizType.self, forKey: .type)
@@ -40,7 +40,7 @@ struct Quiz: Identifiable, Codable {
         }
         
         func encode(to encoder: Encoder) throws {
-            var container = try encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(question, forKey: .question)
             try container.encode(options, forKey: .options)
             try container.encode(type.rawValue, forKey: .type)

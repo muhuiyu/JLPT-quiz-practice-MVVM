@@ -9,7 +9,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseFirestoreCombineSwift
 
-struct Kanji: Identifiable, Codable {
+struct Kanji: Identifiable, Codable, FirebaseFetchable {
     @DocumentID var id: String?
     var title: String
     var meaning: String
@@ -26,13 +26,13 @@ struct Kanji: Identifiable, Codable {
         }
         
         init(from decoder: Decoder) throws {
-            var container = try decoder.container(keyedBy: CodingKeys.self)
+            let container = try decoder.container(keyedBy: CodingKeys.self)
             title = try container.decode(String.self, forKey: .title)
             meaning = try container.decode(String.self, forKey: .meaning)
         }
         
         func encode(to encoder: Encoder) throws {
-            var container = try encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(title, forKey: .title)
             try container.encode(meaning, forKey: .meaning)
         }

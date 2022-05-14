@@ -26,13 +26,13 @@ struct UserStats: Codable, Identifiable {
         }
         
         init(from decoder: Decoder) throws {
-            var container = try decoder.container(keyedBy: CodingKeys.self)
+            let container = try decoder.container(keyedBy: CodingKeys.self)
             streakDays = try container.decode(Int.self, forKey: .streakDays)
             numberOfAnsweredQuestions = try container.decode(Int.self, forKey: .numberOfAnsweredQuestions)
             exp = try container.decode(Int.self, forKey: .exp)
         }
         func encode(to encoder: Encoder) throws {
-            var container = try encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(streakDays, forKey: .streakDays)
             try container.encode(numberOfAnsweredQuestions, forKey: .numberOfAnsweredQuestions)
             try container.encode(exp, forKey: .exp)

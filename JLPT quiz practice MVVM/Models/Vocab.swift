@@ -9,7 +9,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseFirestoreCombineSwift
 
-struct Vocab: Identifiable, Codable {
+struct Vocab: Identifiable, Codable, FirebaseFetchable {
     @DocumentID var id: String?
     var title: String
     var meaning: String
@@ -34,7 +34,7 @@ extension Vocab {
         }
         
         func encode(to encoder: Encoder) throws {
-            var container = try encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(title, forKey: .title)
             try container.encode(meaning, forKey: .meaning)
         }

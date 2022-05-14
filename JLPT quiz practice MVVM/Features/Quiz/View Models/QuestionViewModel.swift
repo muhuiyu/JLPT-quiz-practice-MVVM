@@ -35,7 +35,7 @@ class QuestionViewModel {
             .asObservable()
             .subscribe(onNext: { value in
                 if value != "" {
-                    FirebaseDataSource.shared.fetch(as: Quiz.self, from: Quiz.collectionName, for: value) { result in
+                    FirebaseDataSource.shared.fetch(Quiz.self, for: value) { result in
                         switch result {
                         case .success(let quiz):
                             self.state.accept(.unanswered)
