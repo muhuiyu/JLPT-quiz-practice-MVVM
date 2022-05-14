@@ -15,7 +15,12 @@ class HomeViewController: ViewController {
     private let spinnerView = SpinnerView()
     
     var viewModel = HomeViewModel()
-        
+
+    override init() {
+        super.init()
+        tabBarItem = viewModel.tabBarItem
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
@@ -73,14 +78,14 @@ extension HomeViewController {
         }
     }
     private func configureViews() {
-        title = viewModel.title
+        title = viewModel.titleString
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(QuizConfigCell.self, forCellReuseIdentifier: QuizConfigCell.reuseID)
         view.addSubview(tableView)
         
-        startButton.text = viewModel.displayButtonText
+        startButton.text = viewModel.displayButtonTextString
         startButton.tapHandler = { [weak self] in
             self?.didTapStart()
         }
@@ -91,7 +96,8 @@ extension HomeViewController {
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
         startButton.snp.remakeConstraints { make in
-            make.leading.trailing.bottom.equalTo(view.layoutMarginsGuide)
+            make.leading.trailing.equalTo(view.layoutMarginsGuide)
+            make.bottom.equalTo(view.layoutMarginsGuide).inset(Constants.spacing.medium)
         }
     }
 }
@@ -113,10 +119,9 @@ extension HomeViewController: UITableViewDelegate {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
         }
-        
         guard let cell = tableView.cellForRow(at: indexPath) as? QuizConfigCell else { return }
-        let alert = UIAlertController(title: viewModel.displayQuizConfigActionSheetTitle,
-                                      message: viewModel.displayQuizConfigActionSheetMessage,
+        let alert = UIAlertController(title: viewModel.displayQuizConfigActionSheetTitleString,
+                                      message: viewModel.displayQuizConfigActionSheetMessageString,
                                       preferredStyle: .actionSheet)
         for option in cell.options {
             alert.addAction(UIAlertAction(title: option, style: .default, handler: { value in

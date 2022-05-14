@@ -145,6 +145,8 @@ extension QuestionViewController {
                     self.displayFeedback(isCorrect: true)
                 case .answeredWrongly:
                     self.displayFeedback(isCorrect: false)
+                case .didReqestExplanation:
+                    return
                 default:
                     return
                 }

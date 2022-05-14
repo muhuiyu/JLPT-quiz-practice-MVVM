@@ -7,11 +7,9 @@
 
 import Foundation
 import RxRelay
+import UIKit
 
 class HomeViewModel {
-    
-    var title: String { return "JLPT quiz" }
-    var displayButtonText: String { return "Start" }
     
     struct CellContent {
         let title: String
@@ -24,8 +22,16 @@ class HomeViewModel {
         CellContent(title: "number of questions", options: ["10", "15", "20"]),
     ]
     
-    var displayQuizConfigActionSheetTitle: String { return "Choose" }
-    var displayQuizConfigActionSheetMessage: String { return "" }
+}
+
+extension HomeViewModel {
+    var titleString: String { return "JLPT quiz" }
+    var displayButtonTextString: String { return "Start" }
+    var displayQuizConfigActionSheetTitleString: String { return "Choose" }
+    var displayQuizConfigActionSheetMessageString: String { return "" }
+    var tabBarItem: UITabBarItem { return UITabBarItem(title: titleString,
+                                                       image: UIImage(systemName: "house"),
+                                                       selectedImage: UIImage(systemName: "house.fill")) }
 }
 
 extension HomeViewModel {

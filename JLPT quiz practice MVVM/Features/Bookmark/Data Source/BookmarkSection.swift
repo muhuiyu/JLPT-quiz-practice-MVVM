@@ -1,13 +1,13 @@
 //
-//  OptionSection.swift
+//  BookmarkSection.swift
 //  JLPT quiz practice MVVM
 //
-//  Created by Mu Yu on 5/5/22.
+//  Created by Mu Yu on 5/14/22.
 //
 
 import RxDataSources
 
-struct OptionSection: Codable {
+struct BookmarkSection: Codable {
     var header: String
     var items: [Item]
     
@@ -17,7 +17,7 @@ struct OptionSection: Codable {
     }
 }
 
-extension OptionSection {
+extension BookmarkSection {
     private enum CodingKeys: String, CodingKey {
         case header
         case items
@@ -29,11 +29,12 @@ extension OptionSection {
     }
 }
 
-extension OptionSection: SectionModelType {
-    typealias Item = QuizOption
+extension BookmarkSection: SectionModelType {
+    typealias Item = BookmarkItem
     
-    init(original: OptionSection, items: [Item]) {
+    init(original: BookmarkSection, items: [Item]) {
         self = original
         self.items = items
     }
 }
+

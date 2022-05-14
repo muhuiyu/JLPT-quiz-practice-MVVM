@@ -69,14 +69,14 @@ struct QuizOption: Codable, Item {
         case isAnswer
     }
     init(from decoder: Decoder) throws {
-        var container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         id = UUID().uuidString
         title = try container.decode(String.self, forKey: .title)
         linkedEntryId = try container.decode(String.self, forKey: .linkedEntryId)
         isAnswer = try container.decode(Bool.self, forKey: .isAnswer)
     }
     func encode(to encoder: Encoder) throws {
-        var container = try encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(title, forKey: .title)
         try container.encode(linkedEntryId, forKey: .linkedEntryId)
         try container.encode(isAnswer, forKey: .isAnswer)

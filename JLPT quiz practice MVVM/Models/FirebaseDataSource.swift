@@ -240,7 +240,7 @@ extension FirebaseDataSource {
             }
         }
     }
-    /// Mark question as mastered
+    /// Update question attempt record after user answered the question
     func markQuestionAsMastered(for quizID: String, completion: @escaping (VoidResult) -> Void) {
         guard let user = Auth.auth().currentUser else { return completion(.failure(FirebaseError.userMissing)) }
         let collectionRef = Firestore.firestore().collection(QuestionAttemptRecord.collectionName)
@@ -251,6 +251,41 @@ extension FirebaseDataSource {
             }
             collectionRef.document(changes[0].document.documentID).updateData([AttibuteKey.isMastered: true]) { error in
                 if let error = error { return completion(.failure(error)) }
+                return completion(.success)
+            }
+        }
+    }
+}
+
+// MARK: - Bookmark
+extension FirebaseDataSource {
+    func fetchBookmarks(for type: QuizType = .mixed, completion: @escaping(Result<[Bookmark], Error>) -> Void) {
+        guard let user = Auth.auth().currentUser else { return completion(.failure(FirebaseError.userMissing)) }
+        let ref: Query = Firestore.firestore().collection(Bookmark.collectionName)
+        if type != .mixed { ref.whereField(AttibuteKey.type, isEqualTo: type.rawValue) }
+        
+        ref.whereField(AttibuteKey.userID, isEqualTo: user.uid).getDocuments { snapshot, error in
+            if let error = error { return completion(.failure(error)) }
+            guard let snapshot = snapshot else { return completion(.failure(FirebaseError.snapshotMissing)) }
+            
+            let bookmarks: [Bookmark] = snapshot.documentChanges
+                .filter { $0.type == .added }
+                .compactMap { try? Bookmark(snapshot: $0.document) }
+            
+            return completion(.success(bookmarks))
+        }
+    }
+    func addBookmark(for itemID: String, as type: QuizType, completion: @escaping(Result<String, Error>) -> Void) {
+        guard let user = Auth.auth().currentUser else { return completion(.failure(FirebaseError.userMissing)) }
+        let newRef = Firestore.firestore().collection(Bookmark.collectionName).document()
+        _ = newRef.setData(from: Bookmark(userID: user.uid, itemID: itemID, type: type))
+        return completion(.success(newRef.documentID))
+    }
+    func removeBookmark(for id: String, completion: @escaping(VoidResult) -> Void) {
+        Firestore.firestore().collection(Bookmark.collectionName).document(id).delete() { error in
+            if let error = error {
+                return completion(.failure(error))
+            } else {
                 return completion(.success)
             }
         }

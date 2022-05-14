@@ -22,18 +22,10 @@ class OptionCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureViews()
         configureConstraints()
-        configureGestures()
         configureSignals()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-// MARK: - Actions
-extension OptionCell {
-    @objc
-    private func didTapButton() {
-        viewModel.buttonTapHandler?()
     }
 }
 // MARK: - View Config
@@ -65,11 +57,6 @@ extension OptionCell {
             containerView.backgroundColor = UIColor.secondarySystemBackground
             buttonLabel.isHidden = true
         }
-    }
-
-    private func configureGestures() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapButton))
-        buttonLabel.addGestureRecognizer(tapRecognizer)
     }
     private func configureConstraints() {
         titleLabel.snp.remakeConstraints { make in

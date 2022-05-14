@@ -1,8 +1,8 @@
 //
-//  OptionDataSource.swift
+//  BookmarkDataSource.swift
 //  JLPT quiz practice MVVM
 //
-//  Created by Mu Yu on 5/5/22.
+//  Created by Mu Yu on 5/14/22.
 //
 
 import Foundation
@@ -11,16 +11,16 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-struct OptionDataSource {
+struct BookmarkDataSource {
     typealias DataSource = RxTableViewSectionedReloadDataSource
 
-    static func dataSource() -> DataSource<OptionSection> {
-        return DataSource<OptionSection>(
+    static func dataSource() -> DataSource<BookmarkSection> {
+        return DataSource<BookmarkSection>(
             configureCell: { dataSource, tableView, indexPath, item -> UITableViewCell in
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: OptionCell.reuseID, for: indexPath) as? OptionCell else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: BookmarkCell.reuseID, for: indexPath) as? BookmarkCell else {
                     return UITableViewCell()
                 }
-                cell.viewModel.option.accept(item)
+                cell.viewModel.bookmarkItem.accept(item)
                 return cell
 
             }, titleForHeaderInSection: { dataSource, index in
