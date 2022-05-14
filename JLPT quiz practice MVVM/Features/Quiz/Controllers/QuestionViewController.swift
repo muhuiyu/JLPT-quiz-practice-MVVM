@@ -9,7 +9,6 @@ import UIKit
 import AVFoundation
 import RxSwift
 
-// TODO: "save" question
 class QuestionViewController: ViewController {
     private let disposeBag = DisposeBag()
     
@@ -25,7 +24,6 @@ class QuestionViewController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureLoadingViews()
         configureViews()
         configureConstraints()
         configureSignals()
@@ -34,6 +32,9 @@ class QuestionViewController: ViewController {
 // MARK: - Action
 extension QuestionViewController {
     private func displayFeedback(isCorrect: Bool) {
+        self.nextButton.isHidden = false
+        self.masteredButton.isHidden = false
+        
         // 1. highlight selected item
         guard
             let selectedOptionIndexPath = viewModel.selectionOptionIndexPath,
@@ -50,20 +51,25 @@ extension QuestionViewController {
                 }
             }
         }
-        self.nextButton.isHidden = false
-        self.masteredButton.isHidden = false
+        
+        // 3. play sound
+        let soundFileName = isCorrect ? "correct.m4a" : "wrong.m4a"
+        guard let path = Bundle.main.path(forResource: soundFileName, ofType: nil) else { return }
+        let url = URL(fileURLWithPath: path)
+        do {
+            answerSoundEffect = try AVAudioPlayer(contentsOf: url)
+            answerSoundEffect?.play()
+        } catch {
+            print(error)
+        }
     }
 }
 // MARK: - View Config
 extension QuestionViewController {
-    private func configureLoadingViews() {
+    private func configureViews() {
         spinnerView.isHidden = false
         view.addSubview(spinnerView)
-        spinnerView.snp.remakeConstraints { make in
-            make.center.equalToSuperview()
-        }
-    }
-    private func configureViews() {
+        
         questionLabel.font = UIFont.body
         questionLabel.textColor = UIColor.label
         questionLabel.numberOfLines = 0
@@ -88,6 +94,9 @@ extension QuestionViewController {
         view.addSubview(masteredButton)
     }
     private func configureConstraints() {
+        spinnerView.snp.remakeConstraints { make in
+            make.center.equalToSuperview()
+        }
         questionLabel.snp.remakeConstraints { make in
             make.top.equalTo(view.layoutMarginsGuide).inset(Constants.spacing.enormous)
             make.leading.trailing.equalTo(view.layoutMarginsGuide)
