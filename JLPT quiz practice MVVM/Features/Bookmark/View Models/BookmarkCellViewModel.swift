@@ -14,14 +14,21 @@ class BookmarkCellViewModel {
     private let disposeBag = DisposeBag()
 
     var bookmarkItem: BehaviorRelay<BookmarkItem?> = BehaviorRelay(value: nil)
-    var displayTitle: BehaviorRelay<String> = BehaviorRelay(value: "")
+    var displayTitle: BehaviorRelay<String> = BehaviorRelay(value: "default")
     
     init() {
         bookmarkItem
             .asObservable()
             .subscribe(onNext: { value in
                 if let value = value {
-                    self.displayTitle.accept(value.bookmark.itemID)
+                    FirebaseDataSource.shared.fetchEntry(as: value.bookmark.type, for: value.bookmark.itemID) { result in
+                        switch result {
+                        case .failure(let error):
+                            print(error)
+                        case .success(let item):
+                            self.displayTitle.accept(item.title)
+                        }
+                    }
                 }
             })
             .disposed(by: disposeBag)

@@ -57,6 +57,8 @@ extension SessionViewController {
 // MARK: - View Config
 extension SessionViewController {
     private func configureViews() {
+        navigationItem.largeTitleDisplayMode = .never
+        
         headerContainer.addSubview(headerProgressBar)
         
         sessionTitleLabel.text = viewModel.displaySessionTitleString

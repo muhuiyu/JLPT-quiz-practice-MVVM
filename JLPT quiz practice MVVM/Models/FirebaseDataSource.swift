@@ -90,6 +90,26 @@ extension FirebaseDataSource {
             }
         }
     }
+    func fetchEntry(as type: QuizType, for id: String?, completion: @escaping(Result<Entry, Error>) -> Void) {
+        func resultHandler<Success: Entry>(_ result: Result<Success, Error>) {
+            switch result {
+            case .failure(let error):
+                return completion(.failure(error))
+            case .success(let item):
+                return completion(.success(item))
+            }
+        }
+        switch type {
+        case .grammar:
+            fetch(Grammar.self, for: id, completion: resultHandler)
+        case .kanji:
+            fetch(Kanji.self, for: id, completion: resultHandler)
+        case .vocab:
+            fetch(Vocab.self, for: id, completion: resultHandler)
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - Generate Quiz set

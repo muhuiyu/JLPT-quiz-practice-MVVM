@@ -39,6 +39,10 @@ extension BookmarkViewController {
             }
         }
     }
+    private func didSelect(_ item: Bookmark) {
+        let viewController = self.viewModel.entryDetailViewController(for: item)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 // MARK: - View Config
 extension BookmarkViewController {
@@ -63,6 +67,13 @@ extension BookmarkViewController {
     private func configureSignals() {
         viewModel.displayBookmarks
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
+            .disposed(by: disposeBag)
+        
+        tableView.rx
+            .modelSelected(BookmarkItem.self)
+            .subscribe(onNext: { item in
+                self.didSelect(item.bookmark)
+            })
             .disposed(by: disposeBag)
     }
 }

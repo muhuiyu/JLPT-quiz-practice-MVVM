@@ -69,4 +69,10 @@ extension BookmarkViewModel {
             }
         }
     }
+    func entryDetailViewController(for item: Bookmark) -> EntryDetailViewController {
+        let viewController = EntryDetailViewController()
+        viewController.viewModel.entryConfig.accept(EntryDetailViewModel.Config(id: item.itemID, type: item.type))
+        viewController.viewModel.isBookmarked.accept(true)
+        return viewController
+    }
 }

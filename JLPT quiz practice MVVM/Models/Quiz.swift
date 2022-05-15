@@ -95,7 +95,7 @@ enum QuizType: String, Codable {
     case mixed
     case kanji
     case grammar
-    case vocab
+    case vocab    
 }
 struct QuizConfig {
     let type: QuizType
