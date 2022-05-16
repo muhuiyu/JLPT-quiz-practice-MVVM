@@ -69,11 +69,12 @@ extension BookmarkViewController {
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: disposeBag)
         
-        tableView.rx
-            .modelSelected(BookmarkItem.self)
-            .subscribe(onNext: { item in
+        Observable
+            .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(BookmarkItem.self))
+            .subscribe { indexPath, item in
                 self.didSelect(item.bookmark)
-            })
+                self.tableView.deselectRow(at: indexPath, animated: true)
+            }
             .disposed(by: disposeBag)
     }
 }
