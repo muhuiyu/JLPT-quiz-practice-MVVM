@@ -39,6 +39,7 @@ struct Kanji: Identifiable, Codable, FirebaseFetchable, Entry {
     }
     
     init?(snapshot: DocumentSnapshot) throws {
+        id = snapshot.documentID
         let data = try snapshot.data(as: Kanji.self)
         title = data.title
         meaning = data.meaning
