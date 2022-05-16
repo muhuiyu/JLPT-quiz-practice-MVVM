@@ -49,6 +49,7 @@ struct Quiz: Identifiable, Codable, FirebaseFetchable {
     }
     
     init(snapshot: DocumentSnapshot) throws {
+        id = snapshot.documentID
         let data = try snapshot.data(as: QuizData.self)
         question = data.question
         options = data.options.shuffled()
@@ -95,7 +96,16 @@ enum QuizType: String, Codable {
     case mixed
     case kanji
     case grammar
-    case vocab    
+    case vocab
+    
+    var collectionName: String {
+        switch self {
+        case .grammar: return Grammar.collectionName
+        case .kanji: return Kanji.collectionName
+        case .vocab: return Vocab.collectionName
+        default: return ""
+        }
+    }
 }
 struct QuizConfig {
     let type: QuizType

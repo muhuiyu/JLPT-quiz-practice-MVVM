@@ -75,5 +75,24 @@ extension EntryDetailViewModel {
             self.isBookmarked.accept(true)
         }
     }
+    func getGrammarItems(for ids: [String], completion: @escaping(Result<[RelatedGrammarsView.RelatedGrammarItem], Error>) -> Void) {
+        FirebaseDataSource.shared.fetchMultiple(as: .grammar, for: ids) { result in
+            switch result {
+            case .failure(let error):
+                return completion(.failure(error))
+            case .success(let grammars):
+                guard let grammars = grammars as? [Grammar] else { return }
+                let items: [RelatedGrammarsView.RelatedGrammarItem] = grammars
+                    .compactMap { grammar in
+                        if let id = grammar.id {
+                            return RelatedGrammarsView.RelatedGrammarItem(id: id, title: grammar.title)
+                        } else {
+                             return nil
+                        }
+                    }
+                return completion(.success(items))
+            }
+        }
+    }
 }
 

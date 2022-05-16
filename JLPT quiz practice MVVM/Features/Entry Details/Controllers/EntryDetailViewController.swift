@@ -82,22 +82,24 @@ extension EntryDetailViewController {
         examplesStackView.content = entry.examples
         stackView.addArrangedSubview(examplesStackView)
         
-        if entry.remark != "" {
+        if !entry.remark.isEmpty {
             let remarkView = ExplanationItemView()
             remarkView.title = viewModel.displayGrammarRemarkViewTitleString
             remarkView.content = entry.remark
             stackView.addArrangedSubview(remarkView)
         }
         if !entry.relatedGrammar.isEmpty {
-//            var grammarItems: [RelatedGrammarsView.RelatedGrammarItem] = []
-//            for grammarID in entry.relatedGrammar {
-//                guard let grammar = grammarDatabase[grammarID] else { continue }
-//                grammarItems.append(RelatedGrammarsView.RelatedGrammarItem(id: grammarID, title: grammar.title))
-//            }
             relatedGrammarsView.title = viewModel.displayGrammarRelatedGrammersViewTitleString
-//            relatedGrammarsView.content = grammarItems
-//            relatedGrammarsView.delegate = self
-            stackView.addArrangedSubview(relatedGrammarsView)
+            viewModel.getGrammarItems(for: entry.relatedGrammar) { result in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let items):
+                    // TODO: click related grammar item and navigate to EntryDetailViewController
+                    relatedGrammarsView.content = items
+                    self.stackView.addArrangedSubview(relatedGrammarsView)
+                }
+            }
         }
     }
     private func configureConstraints() {

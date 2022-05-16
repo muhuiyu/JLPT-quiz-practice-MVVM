@@ -41,6 +41,7 @@ extension Vocab {
     }
     
     init?(snapshot: DocumentSnapshot) throws {
+        id = snapshot.documentID
         let data = try snapshot.data(as: VocabData.self)
         title = data.title
         meaning = data.meaning

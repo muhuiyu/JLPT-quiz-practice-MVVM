@@ -110,6 +110,33 @@ extension FirebaseDataSource {
             break
         }
     }
+    func fetchMultiple(as type: QuizType, for ids: [String], completion: @escaping(Result<[Entry], Error>) -> Void) {
+        guard !ids.isEmpty, type != .mixed else { return completion(.success([])) }
+        
+        let ref = Firestore.firestore().collection(type.collectionName)
+        
+        ref.whereField(.documentID(), in: ids).getDocuments { snapshot, error in
+            if let error = error {
+                return completion(.failure(error))
+            }
+            guard let snapshot = snapshot else {
+                return completion(.failure(FirebaseError.snapshotMissing))
+            }
+            
+            let entries: [Entry] = snapshot
+                .documentChanges
+                .filter { $0.type == .added }
+                .compactMap { change in
+                    switch type {
+                    case .grammar: return try? Grammar(snapshot: change.document)
+                    case .kanji: return try? Kanji(snapshot: change.document)
+                    case .vocab: return try? Vocab(snapshot: change.document)
+                    default: return nil
+                    }
+                }
+            return completion(.success(entries))
+        }
+    }
 }
 
 // MARK: - Generate Quiz set
