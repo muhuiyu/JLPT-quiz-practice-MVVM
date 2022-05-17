@@ -15,7 +15,7 @@ class OptionCellViewModel {
     
     // MARK: - Reactive properties
     var option: BehaviorRelay<QuizOption?> = BehaviorRelay(value: nil)
-    var isAnswerRevealed: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    var state: BehaviorRelay<QuizOption.State> = BehaviorRelay(value: .empty)
     var displayTitle: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayButtonString: String { return "View More" }
     
@@ -25,6 +25,7 @@ class OptionCellViewModel {
             .subscribe(onNext: { value in
                 if let value = value {
                     self.displayTitle.accept(value.title)
+                    self.state.accept(value.state)
                 }
             })
             .disposed(by: disposeBag)

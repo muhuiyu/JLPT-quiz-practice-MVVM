@@ -13,25 +13,16 @@ import RxDataSources
 class QuestionViewModel {
     private let disposeBag = DisposeBag()
     private var quiz: BehaviorRelay<Quiz?> = BehaviorRelay(value: nil)
+    var quizID: BehaviorRelay<String> = BehaviorRelay(value: "")
     
     lazy var dataSource = OptionDataSource.dataSource()
-    var quizID: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayQuestionString: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayOptions: BehaviorRelay<[OptionSection]> = BehaviorRelay(value: [])
-    var selectionOptionIndexPath: IndexPath?
+    var isAnswerHidden: BehaviorRelay<Bool> = BehaviorRelay(value: true)
     
-    var selectedOptionEntryID: BehaviorRelay<String?> = BehaviorRelay(value: nil)
-    
-    var state: BehaviorRelay<State> = BehaviorRelay(value: .loading)
-    
-    enum State {
-        case loading
-        case unanswered
-        case answeredCorrectly
-        case answeredWrongly
-        case didReqestExplanation
-        case didTapContinue
-    }
+    var didAnswerHandler: ((_ id: String, _ isCorrect: Bool) -> Void)?
+    var didTapContinueHandler: (() -> Void)?
+    var didTapDetailPageHandler: ((_ id: String, _ type: QuizType) -> Void)?
     
     init() {
         self.quizID
@@ -40,11 +31,10 @@ class QuestionViewModel {
                 if value != "" {
                     FirebaseDataSource.shared.fetch(Quiz.self, for: value) { result in
                         switch result {
-                        case .success(let quiz):
-                            self.state.accept(.unanswered)
-                            self.quiz.accept(quiz)
                         case .failure(let error):
                             print(error)
+                        case .success(let quiz):
+                            self.quiz.accept(quiz)
                         }
                     }
                 }
@@ -57,6 +47,7 @@ class QuestionViewModel {
                 if let value = value {
                     self.displayQuestionString.accept(value.question)
                     self.displayOptions.accept([OptionSection(header: "", items: value.options)])
+                    self.isAnswerHidden.accept(true)
                 }
             })
             .disposed(by: disposeBag)
@@ -66,35 +57,31 @@ class QuestionViewModel {
 extension QuestionViewModel {
     var displayNextButtonString: String { return "Next" }
     var displayMasterButtonString: String { return "I mastered this question already" }
+    var questionType: QuizType? { return quiz.value?.type }
 }
 
 // MARK: - DidSelectOptions
 extension QuestionViewModel {
-    private func didAnswer(with option: QuizOption, at indexPath: IndexPath) {
-        let isCorrect = option.isAnswer
-        self.selectionOptionIndexPath = indexPath
-        self.state.accept(isCorrect ? .answeredCorrectly : .answeredWrongly)
+    private func revealAnswerInCells(with option: QuizOption, at indexPath: IndexPath) {
+        guard let options = quiz.value?.options else { return }
         
-        FirebaseDataSource.shared.updateQuestionAttemptRecord(for: quizID.value, answer: isCorrect) { result in
-            switch result {
-            case .success:
-                return
-            case .failure(let error):
-                print(error)
-            }
+        var newOptions = [QuizOption]()
+        for (i, item) in options.enumerated() {
+            var option = item
+            option.state = (i == indexPath.row || item.isAnswer) ? .selected : .unselected
+            newOptions.append(option)
         }
-    }
-    private func didRequestExplanation(for option: QuizOption) {
-        
+        self.displayOptions.accept([OptionSection(header: "", items: newOptions)])
     }
     func didSelect(_ option: QuizOption, at indexPath: IndexPath) {
-        switch state.value {
-        case .unanswered:
-            didAnswer(with: option, at: indexPath)
-        case .answeredCorrectly, .answeredWrongly:
-            didRequestExplanation(for: option)
-        default:
-            return
+        switch option.state {
+        case .empty:
+            self.didAnswerHandler?(quizID.value, option.isAnswer)
+            self.revealAnswerInCells(with: option, at: indexPath)
+            self.isAnswerHidden.accept(false)
+        case .selected, .unselected:
+            guard let questionType = questionType else { return }
+            self.didTapDetailPageHandler?(option.linkedEntryId, questionType)
         }
     }
 }
@@ -102,7 +89,7 @@ extension QuestionViewModel {
 // MARK: - Actions after question answered
 extension QuestionViewModel {
     func didRequestGoNextQuestion() {
-        self.state.accept(.didTapContinue)
+        self.didTapContinueHandler?()
     }
     func didRequestBookmarkQuestion() {
 
@@ -111,7 +98,7 @@ extension QuestionViewModel {
         FirebaseDataSource.shared.markQuestionAsMastered(for: quizID.value) { result in
             switch result {
             case .success:
-                print("yeah")
+                return
             case .failure(let error):
                 print(error)
             }

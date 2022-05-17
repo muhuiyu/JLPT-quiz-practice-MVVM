@@ -49,13 +49,17 @@ extension OptionCell {
         containerView.backgroundColor = UIColor.secondarySystemBackground
         contentView.addSubview(containerView)
     }
-    private func reconfigureViews(isAnswerRevealed: Bool, isOptionAnswer: Bool) {
-        if isAnswerRevealed {
-            containerView.backgroundColor = isOptionAnswer ? UIColor.optionCell.correct : UIColor.optionCell.wrong
-            buttonLabel.isHidden = false
-        } else {
+    private func reconfigureViews(as state: QuizOption.State, isOptionAnswer: Bool) {
+        switch state {
+        case .empty:
             containerView.backgroundColor = UIColor.secondarySystemBackground
             buttonLabel.isHidden = true
+        case .selected:
+            containerView.backgroundColor = isOptionAnswer ? UIColor.optionCell.correct : UIColor.optionCell.wrong
+            buttonLabel.isHidden = false
+        case .unselected:
+            containerView.backgroundColor = UIColor.secondarySystemBackground
+            buttonLabel.isHidden = false
         }
     }
     private func configureConstraints() {
@@ -81,10 +85,10 @@ extension OptionCell {
             })
             .disposed(by: disposeBag)
         
-        viewModel.isAnswerRevealed
+        viewModel.state
             .asObservable()
             .subscribe(onNext: { value in
-                self.reconfigureViews(isAnswerRevealed: value, isOptionAnswer: self.viewModel.option.value?.isAnswer ?? false)
+                self.reconfigureViews(as: value, isOptionAnswer: self.viewModel.option.value?.isAnswer ?? false)
             })
             .disposed(by: disposeBag)
     }
