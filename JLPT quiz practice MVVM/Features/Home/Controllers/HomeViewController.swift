@@ -56,14 +56,15 @@ extension HomeViewController {
         }
         
         let config = QuizConfig(type: type, level: level, numberOfQuestions: numberOfQuestions)
-        viewModel.getQuizViewController(with: config) { viewController, error in
-            if let error = error {
+        viewModel.getSessionViewController(with: config) { result in
+            switch result {
+            case .failure(let error):
                 print(error)
-                return
+            case .success(let viewController):
+                viewController.isModalInPresentation = true
+                self.spinnerView.isHidden = true
+                self.present(viewController.embedInNavgationController(), animated: true)
             }
-            viewController.isModalInPresentation = true
-            self.spinnerView.isHidden = true
-            self.present(viewController.embedInNavgationController(), animated: true)
         }
     }
 }

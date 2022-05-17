@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 import RxSwift
 
 class SessionViewController: ViewController {
@@ -24,6 +25,8 @@ class SessionViewController: ViewController {
                                                       navigationOrientation: .horizontal,
                                                       options: nil)
     
+    private var answerSoundEffect: AVAudioPlayer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
@@ -37,21 +40,44 @@ extension SessionViewController {
         self.dismiss(animated: true)
     }
     private func updateCurrentPage() {
-        let viewController = viewModel.questionViewController()
+        let viewController = viewModel.questionViewController
+        viewController.viewModel.didTapDetailPageHandler = { [weak self] (id, type) in
+            self?.displayDetailViewController(for: id, as: type)
+        }
         self.headerProgressBar.updateProgressBar(to: viewModel.currentProgress)
         self.pageController.setViewControllers([viewController], direction: .forward, animated: true)
     }
-}
-// MARK: - Actions
-extension SessionViewController {
+    private func presentOptionEntryNotFoundAlert() {
+        
+    }
+    private func displayDetailViewController(for id: String, as type: QuizType) {
+        guard !id.isEmpty else {
+            self.present(viewModel.optionEntryNotFoundAlert, animated: true, completion: nil)
+            return
+        }
+        let viewController = EntryDetailViewController()
+        viewController.viewModel.entryConfig.accept(EntryDetailViewModel.Config(id: id, type: type))
+        navigationController?.pushViewController(viewController, animated: true)
+    }
     private func presentSessionSummaryAlert() {
         self.present(viewModel.sessionSummaryAlert, animated: true, completion: nil)
     }
     private func didTapDismiss() {
-        viewModel.state.accept(.endSession)
+        viewModel.state.accept(.sessionEnded)
     }
-    private func displayDetails() {
-        
+}
+// MARK: - Sound
+extension SessionViewController {
+    func playSound(isCorrect: Bool) {
+        let soundFileName = viewModel.getSoundFileName(isCorrect: isCorrect)
+        guard let path = Bundle.main.path(forResource: soundFileName, ofType: nil) else { return }
+        let url = URL(fileURLWithPath: path)
+        do {
+            answerSoundEffect = try AVAudioPlayer(contentsOf: url)
+            answerSoundEffect?.play()
+        } catch {
+            print(error)
+        }
     }
 }
 // MARK: - View Config
@@ -106,13 +132,13 @@ extension SessionViewController {
             .asObservable()
             .subscribe(onNext: { status in
                 switch status {
-                case .loadQuestion:
+                case .questionLoaded:
                     self.updateCurrentPage()
-                case .loadDetail:
-                    self.displayDetails()
-                case .presentSessionSummary:
+                case .answered(let isCorrect):
+                    self.playSound(isCorrect: isCorrect)
+                case .sessionSummaryPresented:
                     self.presentSessionSummaryAlert()
-                case .endSession:
+                case .sessionEnded:
                     self.endSession()
                 }
             })

@@ -13,79 +13,101 @@ class SessionViewModel {
     private let disposeBag = DisposeBag()
     
     var quizIDs: BehaviorRelay<[Quiz.ID]> = BehaviorRelay(value: [])
-    var currentIndex = 0
+    var currentIndex: BehaviorRelay<Int> = BehaviorRelay(value: 0)
     var numberOfCorrectAnswers = 0
     
-    var state: BehaviorRelay<State> = BehaviorRelay(value: .loadQuestion)
+    private(set) var state: BehaviorRelay<State> = BehaviorRelay(value: .questionLoaded)
+    var questionViewController = QuestionViewController()
     
     enum State {
-        case loadQuestion
-        case loadDetail
-        case presentSessionSummary
-        case endSession
+        case questionLoaded
+        case answered(Bool)
+        case sessionSummaryPresented
+        case sessionEnded
     }
     
     init() {
-        state.accept(.loadQuestion)
+        quizIDs
+            .asObservable()
+            .subscribe(onNext: { _ in
+                self.currentIndex.accept(0)
+            })
+            .disposed(by: disposeBag)
+        
+        currentIndex
+            .asObservable()
+            .subscribe(onNext: { value in
+                if !self.quizIDs.value.isEmpty, let id = self.quizIDs.value[value] {
+                    self.questionViewController.viewModel.quizID.accept(id)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        state.accept(.questionLoaded)
+        configureQuestionViewController()
     }
 }
 
 extension SessionViewModel {
-    var displaySessionTitleString: String { return "test \(currentIndex + 1)/\(quizIDs.value.count)" }
-    
+    var displaySessionTitleString: String { return "test \(currentIndex.value + 1)/\(quizIDs.value.count)" }
+    var optionEntryNotFoundAlert: UIAlertController {
+        let alert = UIAlertController(title: "Oops, no explanation!",
+                                      message: "We will add this to the database very soon :(",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK, got it!", style: .default))
+        return alert
+    }
     var sessionSummaryAlert: UIAlertController {
         let alert =  UIAlertController(title: "Well done!",
                                        message: "You got \(numberOfCorrectAnswers) out of \(quizIDs.value.count) :)",
                                        preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay, got it!", style: .default, handler: { _ in
-            self.state.accept(.endSession)
+            self.state.accept(.sessionEnded)
         }))
         return alert
     }
+    func getSoundFileName(isCorrect: Bool) -> String { return isCorrect ? "correct.m4a" : "wrong.m4a" }
 }
 
+// MARK: - API to QuestionViewModel
 extension SessionViewModel {
-    private func didTapContinue() {
-        if isSessionCompleted {
-            state.accept(.presentSessionSummary)
-        } else {
-            currentIndex += 1
-            state.accept(.loadQuestion)
+    func didAnswer(_ quizID: String, isCorrect: Bool) {
+        state.accept(.answered(isCorrect))
+        FirebaseDataSource.shared.updateQuestionAttemptRecord(for: quizID, answer: isCorrect) { result in
+            switch result {
+            case .success:
+                return
+            case .failure(let error):
+                print(error)
+            }
         }
     }
-    private func didRequestDetails() {
-        state.accept(.loadDetail)
+    func didTapContinue() {
+        if isSessionCompleted {
+            state.accept(.sessionSummaryPresented)
+        } else {
+            currentIndex.accept(currentIndex.value + 1)
+            state.accept(.questionLoaded)
+        }
     }
     private var isSessionCompleted: Bool {
-        return currentIndex == quizIDs.value.count - 1
+        return currentIndex.value == quizIDs.value.count - 1
     }
 }
 
 extension SessionViewModel {
-    var currentProgress: Double { return Double(currentIndex) / Double(quizIDs.value.count - 1) }
-    
-    func questionViewController() -> QuestionViewController {
-        let viewController = QuestionViewController()
-        let viewModel = QuestionViewModel()
-        if let id = quizIDs.value[currentIndex] {
-            viewModel.quizID.accept(id)
+    var currentProgress: Double { return Double(currentIndex.value) / Double(quizIDs.value.count - 1) }
+}
+
+// MARK: - Configure QuestionViewController
+extension SessionViewModel {
+    private func configureQuestionViewController() {
+        questionViewController.viewModel.didTapContinueHandler = { [weak self] in
+            self?.didTapContinue()
         }
-        viewModel.state
-            .asObservable()
-            .subscribe(onNext: { state in
-                switch state {
-                case .didTapContinue:
-                    self.didTapContinue()
-                case .answeredCorrectly:
-                    self.numberOfCorrectAnswers += 1
-                case .didReqestExplanation:
-                    self.didRequestDetails()
-                default:
-                    return
-                }
-            })
-            .disposed(by: disposeBag)
-        viewController.viewModel = viewModel
-        return viewController
+        questionViewController.viewModel.didAnswerHandler = { [weak self] (id, isCorrect) in
+            self?.didAnswer(id, isCorrect: isCorrect)
+        }
     }
+
 }

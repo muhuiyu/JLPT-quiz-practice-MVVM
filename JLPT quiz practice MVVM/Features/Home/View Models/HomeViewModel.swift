@@ -35,15 +35,15 @@ extension HomeViewModel {
 }
 
 extension HomeViewModel {
-    func getQuizViewController(with configuration: QuizConfig, callback: @escaping (_ viewController: SessionViewController, _ error: Error?) -> Void) {
+    func getSessionViewController(with configuration: QuizConfig, completion: @escaping (Result<SessionViewController, Error>) -> Void) {
         let viewController = SessionViewController()
         FirebaseDataSource.shared.generateQuizList(with: configuration) { result in
             switch result {
             case .success(let quizIDs):
                 viewController.viewModel.quizIDs.accept(quizIDs)
-                return callback(viewController, nil)
+                return completion(.success(viewController))
             case .failure(let error):
-                return callback(viewController, error)
+                return completion(.failure(error))
             }
         }
     }

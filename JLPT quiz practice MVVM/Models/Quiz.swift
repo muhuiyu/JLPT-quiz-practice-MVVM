@@ -63,6 +63,13 @@ struct QuizOption: Codable, Item {
     var title: String
     var linkedEntryId: String
     let isAnswer: Bool
+    var state: State = .empty
+    
+    enum State {
+        case empty
+        case selected
+        case unselected
+    }
     
     private enum CodingKeys: String, CodingKey {
         case title = "value"
@@ -75,12 +82,20 @@ struct QuizOption: Codable, Item {
         title = try container.decode(String.self, forKey: .title)
         linkedEntryId = try container.decode(String.self, forKey: .linkedEntryId)
         isAnswer = try container.decode(Bool.self, forKey: .isAnswer)
+        state = .empty
     }
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(title, forKey: .title)
         try container.encode(linkedEntryId, forKey: .linkedEntryId)
         try container.encode(isAnswer, forKey: .isAnswer)
+    }
+    init(id: String, title: String, linkedEntryId: String, isAnswer: Bool, state: QuizOption.State) {
+        self.id = id
+        self.title = title
+        self.linkedEntryId = linkedEntryId
+        self.isAnswer = isAnswer
+        self.state = .empty
     }
 }
 

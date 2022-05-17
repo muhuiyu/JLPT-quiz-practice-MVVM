@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import AVFoundation
 import RxSwift
 
 class QuestionViewController: ViewController {
@@ -18,7 +17,6 @@ class QuestionViewController: ViewController {
     private let tableView = UITableView()
     private let masteredButton = TextButton(frame: .zero, buttonType: .text)
     private let nextButton = TextButton(frame: .zero, buttonType: .primary)
-    private var answerSoundEffect: AVAudioPlayer?
     
     var viewModel = QuestionViewModel()
     
@@ -27,41 +25,6 @@ class QuestionViewController: ViewController {
         configureViews()
         configureConstraints()
         configureSignals()
-    }
-}
-// MARK: - Action
-extension QuestionViewController {
-    private func displayFeedback(isCorrect: Bool) {
-        self.nextButton.isHidden = false
-        self.masteredButton.isHidden = false
-        
-        // 1. highlight selected item
-        guard
-            let selectedOptionIndexPath = viewModel.selectionOptionIndexPath,
-            let selectedCell = self.tableView.cellForRow(at: selectedOptionIndexPath) as? OptionCell
-        else { return }
-        selectedCell.viewModel.isAnswerRevealed.accept(true)
-        
-        // 2. highlight correct answer
-        if !isCorrect {
-            if let cells = self.tableView.visibleCells as? [OptionCell] {
-                for cell in cells {
-                    guard let option = cell.viewModel.option.value else { continue }
-                    if option.isAnswer { cell.viewModel.isAnswerRevealed.accept(true) }
-                }
-            }
-        }
-        
-        // 3. play sound
-        let soundFileName = isCorrect ? "correct.m4a" : "wrong.m4a"
-        guard let path = Bundle.main.path(forResource: soundFileName, ofType: nil) else { return }
-        let url = URL(fileURLWithPath: path)
-        do {
-            answerSoundEffect = try AVAudioPlayer(contentsOf: url)
-            answerSoundEffect?.play()
-        } catch {
-            print(error)
-        }
     }
 }
 // MARK: - View Config
@@ -125,32 +88,20 @@ extension QuestionViewController {
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: disposeBag)
         
+        viewModel.isAnswerHidden
+            .asObservable()
+            .subscribe(onNext: { value in
+                self.nextButton.isHidden = value
+                self.masteredButton.isHidden = value
+            })
+            .disposed(by: disposeBag)
+        
         Observable
             .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(QuizOption.self))
             .subscribe { indexPath, item in
                 self.viewModel.didSelect(item, at: indexPath)
                 self.tableView.deselectRow(at: indexPath, animated: true)
             }
-            .disposed(by: disposeBag)
-        
-        viewModel.state
-            .asObservable()
-            .subscribe(onNext: { state in
-                switch state {
-                case .loading:
-                    self.spinnerView.isHidden = false
-                case .unanswered:
-                    self.spinnerView.isHidden = true
-                case .answeredCorrectly:
-                    self.displayFeedback(isCorrect: true)
-                case .answeredWrongly:
-                    self.displayFeedback(isCorrect: false)
-                case .didReqestExplanation:
-                    return
-                default:
-                    return
-                }
-            })
             .disposed(by: disposeBag)
     }
 }
