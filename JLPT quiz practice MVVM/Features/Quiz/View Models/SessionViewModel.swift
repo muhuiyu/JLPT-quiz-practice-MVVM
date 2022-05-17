@@ -72,6 +72,9 @@ extension SessionViewModel {
 // MARK: - API to QuestionViewModel
 extension SessionViewModel {
     func didAnswer(_ quizID: String, isCorrect: Bool) {
+        if isCorrect {
+            numberOfCorrectAnswers += 1
+        }
         state.accept(.answered(isCorrect))
         FirebaseDataSource.shared.updateQuestionAttemptRecord(for: quizID, answer: isCorrect) { result in
             switch result {

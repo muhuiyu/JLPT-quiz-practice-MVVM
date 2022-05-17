@@ -56,10 +56,10 @@ extension OptionCell {
             buttonLabel.isHidden = true
         case .selected:
             containerView.backgroundColor = isOptionAnswer ? UIColor.optionCell.correct : UIColor.optionCell.wrong
-            buttonLabel.isHidden = false
+            buttonLabel.isHidden = !viewModel.isLinkedEntryIdValid
         case .unselected:
             containerView.backgroundColor = UIColor.secondarySystemBackground
-            buttonLabel.isHidden = false
+            buttonLabel.isHidden = !viewModel.isLinkedEntryIdValid
         }
     }
     private func configureConstraints() {

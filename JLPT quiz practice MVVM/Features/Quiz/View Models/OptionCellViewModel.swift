@@ -19,6 +19,14 @@ class OptionCellViewModel {
     var displayTitle: BehaviorRelay<String> = BehaviorRelay(value: "")
     var displayButtonString: String { return "View More" }
     
+    var isLinkedEntryIdValid: Bool {
+        if let id = option.value?.linkedEntryId {
+            return !id.isEmpty
+        } else {
+            return false
+        }
+    }
+    
     init() {
         option
             .asObservable()

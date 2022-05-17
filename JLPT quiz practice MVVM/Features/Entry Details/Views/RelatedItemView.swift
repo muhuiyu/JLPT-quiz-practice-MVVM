@@ -1,5 +1,5 @@
 //
-//  RelatedGrammarItemView.swift
+//  RelatedItemView.swift
 //  JLPT quiz practice MVVM
 //
 //  Created by Mu Yu on 5/14/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RelatedGrammarItemView: UIView {
+class RelatedItemView: UIView {
     private let titleLabel = UILabel()
     var title: String? {
         get { return titleLabel.text }
@@ -25,12 +25,11 @@ class RelatedGrammarItemView: UIView {
     }
 }
 // MARK: - View Config
-extension RelatedGrammarItemView {
+extension RelatedItemView {
     @objc
     private func didTapInView() {
         self.tapHandler?()
     }
-
     private func configureViews() {
         titleLabel.font = UIFont.bodyHeavy
         titleLabel.numberOfLines = 0

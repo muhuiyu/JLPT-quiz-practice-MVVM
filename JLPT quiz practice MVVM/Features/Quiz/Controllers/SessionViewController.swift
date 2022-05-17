@@ -41,8 +41,8 @@ extension SessionViewController {
     }
     private func updateCurrentPage() {
         let viewController = viewModel.questionViewController
-        viewController.viewModel.didTapDetailPageHandler = { [weak self] (id, type) in
-            self?.displayDetailViewController(for: id, as: type)
+        viewController.viewModel.didTapDetailPageHandler = { [weak self] config in
+            self?.displayDetailViewController(for: config.id, as: config.type)
         }
         self.headerProgressBar.updateProgressBar(to: viewModel.currentProgress)
         self.pageController.setViewControllers([viewController], direction: .forward, animated: true)

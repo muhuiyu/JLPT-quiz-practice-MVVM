@@ -22,7 +22,7 @@ class QuestionViewModel {
     
     var didAnswerHandler: ((_ id: String, _ isCorrect: Bool) -> Void)?
     var didTapContinueHandler: (() -> Void)?
-    var didTapDetailPageHandler: ((_ id: String, _ type: QuizType) -> Void)?
+    var didTapDetailPageHandler: ((_ config: EntryDetailViewModel.Config) -> Void)?
     
     init() {
         self.quizID
@@ -81,7 +81,7 @@ extension QuestionViewModel {
             self.isAnswerHidden.accept(false)
         case .selected, .unselected:
             guard let questionType = questionType else { return }
-            self.didTapDetailPageHandler?(option.linkedEntryId, questionType)
+            self.didTapDetailPageHandler?(EntryDetailViewModel.Config(id: option.linkedEntryId, type: questionType))
         }
     }
 }

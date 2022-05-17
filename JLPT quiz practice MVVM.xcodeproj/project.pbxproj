@@ -37,8 +37,8 @@
 		E46125ED2830813000D3DBED /* EntryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125EC2830813000D3DBED /* EntryDetailViewModel.swift */; };
 		E46125EF28308D9900D3DBED /* ExplanationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125EE28308D9900D3DBED /* ExplanationItemView.swift */; };
 		E46125F12830914200D3DBED /* ExplanationItemExamplesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125F02830914200D3DBED /* ExplanationItemExamplesView.swift */; };
-		E46125F32830916A00D3DBED /* RelatedGrammarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125F22830916A00D3DBED /* RelatedGrammarsView.swift */; };
-		E46125F5283092B300D3DBED /* RelatedGrammarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125F4283092B300D3DBED /* RelatedGrammarItemView.swift */; };
+		E46125F32830916A00D3DBED /* RelatedItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125F22830916A00D3DBED /* RelatedItemListView.swift */; };
+		E46125F5283092B300D3DBED /* RelatedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46125F4283092B300D3DBED /* RelatedItemView.swift */; };
 		E4A5E18D281853A7007C73DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18C281853A7007C73DE /* AppDelegate.swift */; };
 		E4A5E18F281853A7007C73DE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A5E18E281853A7007C73DE /* SceneDelegate.swift */; };
 		E4A5E196281853A8007C73DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4A5E195281853A8007C73DE /* Assets.xcassets */; };
@@ -137,8 +137,8 @@
 		E46125EC2830813000D3DBED /* EntryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewModel.swift; sourceTree = "<group>"; };
 		E46125EE28308D9900D3DBED /* ExplanationItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationItemView.swift; sourceTree = "<group>"; };
 		E46125F02830914200D3DBED /* ExplanationItemExamplesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationItemExamplesView.swift; sourceTree = "<group>"; };
-		E46125F22830916A00D3DBED /* RelatedGrammarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedGrammarsView.swift; sourceTree = "<group>"; };
-		E46125F4283092B300D3DBED /* RelatedGrammarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedGrammarItemView.swift; sourceTree = "<group>"; };
+		E46125F22830916A00D3DBED /* RelatedItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedItemListView.swift; sourceTree = "<group>"; };
+		E46125F4283092B300D3DBED /* RelatedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedItemView.swift; sourceTree = "<group>"; };
 		E4A5E189281853A7007C73DE /* JLPT quiz practice MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JLPT quiz practice MVVM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4A5E18C281853A7007C73DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4A5E18E281853A7007C73DE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -353,8 +353,8 @@
 			children = (
 				E46125EE28308D9900D3DBED /* ExplanationItemView.swift */,
 				E46125F02830914200D3DBED /* ExplanationItemExamplesView.swift */,
-				E46125F22830916A00D3DBED /* RelatedGrammarsView.swift */,
-				E46125F4283092B300D3DBED /* RelatedGrammarItemView.swift */,
+				E46125F22830916A00D3DBED /* RelatedItemListView.swift */,
+				E46125F4283092B300D3DBED /* RelatedItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -781,7 +781,7 @@
 				E46125DA2830129200D3DBED /* Bookmark.swift in Sources */,
 				E4A5E1DF28185464007C73DE /* UIView+fadein.swift in Sources */,
 				E4501A8A2824853B00DD802B /* OptionCellViewModel.swift in Sources */,
-				E46125F5283092B300D3DBED /* RelatedGrammarItemView.swift in Sources */,
+				E46125F5283092B300D3DBED /* RelatedItemView.swift in Sources */,
 				E4A5E1D728185464007C73DE /* Constants.swift in Sources */,
 				E46125F12830914200D3DBED /* ExplanationItemExamplesView.swift in Sources */,
 				E46125D82830101E00D3DBED /* BookmarkViewModel.swift in Sources */,
@@ -790,7 +790,7 @@
 				E46125DD28301EA600D3DBED /* BookmarkDataSource.swift in Sources */,
 				E4501A78282361A000DD802B /* ProgressBarView.swift in Sources */,
 				E46125CD282DBED800D3DBED /* UserStats.swift in Sources */,
-				E46125F32830916A00D3DBED /* RelatedGrammarsView.swift in Sources */,
+				E46125F32830916A00D3DBED /* RelatedItemListView.swift in Sources */,
 				E4A5E1E528185464007C73DE /* Date+startOfMonth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
