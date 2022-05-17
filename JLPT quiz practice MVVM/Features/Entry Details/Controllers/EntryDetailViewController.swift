@@ -31,6 +31,14 @@ class EntryDetailViewController: ViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 }
+// MARK: - Navigation
+extension EntryDetailViewController {
+    private func didTapRelatedItem(for id: String, as type: QuizType) {
+        let viewController = EntryDetailViewController()
+        viewController.viewModel.entryConfig.accept(EntryDetailViewModel.Config(id: id, type: type))
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
 // MARK: - View Config
 extension EntryDetailViewController {
     private func configureBookmarkButton() {
@@ -57,6 +65,10 @@ extension EntryDetailViewController {
         containerView.addSubview(stackView)
         scrollView.addSubview(containerView)
         view.addSubview(scrollView)
+        
+        viewModel.didTapRelatedItemHandler = { [weak self] config in
+            self?.didTapRelatedItem(for: config.id, as: config.type)
+        }
     }
     private func configureContent() {
         titleLabel.text = viewModel.displayTitleLabelString
@@ -72,7 +84,7 @@ extension EntryDetailViewController {
         guard let entry = viewModel.entry.value as? Grammar else { return }
         let formationView = ExplanationItemView()
         let examplesStackView = ExplanationItemExamplesView()
-        let relatedGrammarsView = RelatedGrammarsView()
+        let relatedGrammarsView = RelatedItemListView()
 
         formationView.title = viewModel.displayGrammarFormationLabelTitleString
         formationView.content = entry.formation
@@ -95,8 +107,8 @@ extension EntryDetailViewController {
                 case .failure(let error):
                     print(error)
                 case .success(let items):
-                    // TODO: click related grammar item and navigate to EntryDetailViewController
                     relatedGrammarsView.content = items
+                    relatedGrammarsView.didTapGrammarItemHandler = self.viewModel.didTapRelatedItemHandler
                     self.stackView.addArrangedSubview(relatedGrammarsView)
                 }
             }

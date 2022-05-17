@@ -14,8 +14,10 @@ class EntryDetailViewModel {
     private let disposeBag = DisposeBag()
     
     var entryConfig: BehaviorRelay<Config> = BehaviorRelay(value: Config(id: "", type: .mixed))
-    var entry: BehaviorRelay<Entry?> = BehaviorRelay(value: nil)
-    var isBookmarked: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    private(set) var entry: BehaviorRelay<Entry?> = BehaviorRelay(value: nil)
+    private(set) var isBookmarked: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    
+    var didTapRelatedItemHandler: ((_ entryConfig: Config) -> Void)?
     
     struct Config {
         let id: String
@@ -75,17 +77,17 @@ extension EntryDetailViewModel {
             self.isBookmarked.accept(true)
         }
     }
-    func getGrammarItems(for ids: [String], completion: @escaping(Result<[RelatedGrammarsView.RelatedGrammarItem], Error>) -> Void) {
+    func getGrammarItems(for ids: [String], completion: @escaping(Result<[RelatedItemListView.RelatedItem], Error>) -> Void) {
         FirebaseDataSource.shared.fetchMultiple(as: .grammar, for: ids) { result in
             switch result {
             case .failure(let error):
                 return completion(.failure(error))
             case .success(let grammars):
                 guard let grammars = grammars as? [Grammar] else { return }
-                let items: [RelatedGrammarsView.RelatedGrammarItem] = grammars
+                let items: [RelatedItemListView.RelatedItem] = grammars
                     .compactMap { grammar in
                         if let id = grammar.id {
-                            return RelatedGrammarsView.RelatedGrammarItem(id: id, title: grammar.title)
+                            return RelatedItemListView.RelatedItem(id: id, title: grammar.title)
                         } else {
                              return nil
                         }
@@ -94,5 +96,8 @@ extension EntryDetailViewModel {
             }
         }
     }
+//    func didTap(_ item: ) {
+//
+//    }
 }
 

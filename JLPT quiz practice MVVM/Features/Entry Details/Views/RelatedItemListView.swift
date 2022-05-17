@@ -1,5 +1,5 @@
 //
-//  RelatedGrammarsView.swift
+//  RelatedItemListView.swift
 //  JLPT quiz practice MVVM
 //
 //  Created by Mu Yu on 5/14/22.
@@ -7,11 +7,7 @@
 
 import UIKit
 
-protocol RelatedGrammarsViewDelegate: AnyObject {
-    func relatedGrammarsView(_ view: RelatedGrammarsView, didTapInGrammar id: String)
-}
-
-class RelatedGrammarsView: UIView {
+class RelatedItemListView: UIView {
     private let stackView = UIStackView()
     private let titleLabel = UILabel()
     
@@ -19,17 +15,18 @@ class RelatedGrammarsView: UIView {
         get { return titleLabel.text }
         set { titleLabel.text = newValue }
     }
-    var content: [RelatedGrammarItem] = [] {
+    var content: [RelatedItem] = [] {
         didSet {
             reconfigureViews()
         }
     }
-    struct RelatedGrammarItem {
+    struct RelatedItem {
         let id: String
         let title: String
     }
     
-    weak var delegate: RelatedGrammarsViewDelegate?
+    var didTapGrammarItemHandler: ((_ config: EntryDetailViewModel.Config) -> Void)?
+    
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         configureViews()
@@ -42,13 +39,13 @@ class RelatedGrammarsView: UIView {
     }
 }
 // MARK: - Actions
-extension RelatedGrammarsView {
+extension RelatedItemListView {
     private func didTapInGrammar(at id: String) {
-        delegate?.relatedGrammarsView(self, didTapInGrammar: id)
+        self.didTapGrammarItemHandler?(EntryDetailViewModel.Config(id: id, type: .grammar))
     }
 }
 // MARK: - View Config
-extension RelatedGrammarsView {
+extension RelatedItemListView {
     private func configureViews() {
         titleLabel.font = UIFont.bodyHeavy
         titleLabel.textColor = UIColor.label
@@ -60,7 +57,7 @@ extension RelatedGrammarsView {
     }
     private func reconfigureViews() {
         for grammar in content {
-            let grammarItemView = RelatedGrammarItemView()
+            let grammarItemView = RelatedItemView()
             grammarItemView.title = grammar.title
             grammarItemView.tapHandler = {[weak self] in
                 self?.didTapInGrammar(at: grammar.id)
