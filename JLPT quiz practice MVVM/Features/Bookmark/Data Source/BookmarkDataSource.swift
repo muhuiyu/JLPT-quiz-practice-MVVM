@@ -25,8 +25,9 @@ struct BookmarkDataSource {
 
             }, titleForHeaderInSection: { dataSource, index in
                 return dataSource.sectionModels[index].header
-            }
-        )
+            }, canEditRowAtIndexPath: { _ , _ in
+                return true
+            })
     }
 }
 

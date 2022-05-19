@@ -43,6 +43,7 @@ struct Bookmark: Identifiable, Codable, FirebaseFetchable {
     }
     
     init(snapshot: DocumentSnapshot) throws {
+        id = snapshot.documentID
         let data = try snapshot.data(as: BookmarkData.self)
         userID = data.userID
         itemID = data.itemID

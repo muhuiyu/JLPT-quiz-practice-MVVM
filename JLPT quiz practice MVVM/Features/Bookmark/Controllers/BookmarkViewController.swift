@@ -56,7 +56,11 @@ extension BookmarkViewController {
             tableView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), for: .valueChanged)
+        
         tableView.register(BookmarkCell.self, forCellReuseIdentifier: BookmarkCell.reuseID)
+
+        tableView.setEditing(false, animated: true)
+//        tableView.rx.setDelegate(self).disposed(by: disposeBag)
         view.addSubview(tableView)
     }
     private func configureConstraints() {
@@ -76,5 +80,25 @@ extension BookmarkViewController {
                 self.tableView.deselectRow(at: indexPath, animated: true)
             }
             .disposed(by: disposeBag)
+        
+        tableView.rx.modelDeleted(BookmarkItem.self)
+            .subscribe { value in
+                if let id = value.element?.bookmark.id {
+                    self.viewModel.deleteItem(for: id)
+                }
+            }
+            .disposed(by: disposeBag)
     }
+}
+
+extension BookmarkViewController: UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let action = UIContextualAction(style: .destructive, title: "delete") { _, _, _ in
+//
+//        }
+//        return UISwipeActionsConfiguration(actions: [action])
+//    }
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+//        return .delete
+//    }
 }
