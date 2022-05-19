@@ -19,6 +19,7 @@ class FirebaseDataSource: NSObject {
     struct AttibuteKey {
         static let userID = "userID"
         static let quizID = "quizID"
+        static let itemID = "itemID"
         static let email = "email"
         static let name = "name"
         static let profilePhotoURL = "profilePhotoURL"
@@ -334,6 +335,25 @@ extension FirebaseDataSource {
                 return completion(.failure(error))
             } else {
                 return completion(.success)
+            }
+        }
+    }
+    func getBookmarkID(for entryId: String, completion: @escaping(Result<String?, Error>) -> Void) {
+        guard let user = Auth.auth().currentUser else { return completion(.failure(FirebaseError.userMissing)) }
+        let ref = Firestore.firestore().collection(Bookmark.collectionName)
+        
+        ref.whereField(AttibuteKey.userID, isEqualTo: user.uid).whereField(AttibuteKey.itemID, isEqualTo: entryId).getDocuments { snapshot, error in
+            if let error = error {
+                return completion(.failure(error))
+            }
+            guard let snapshot = snapshot else {
+                return completion(.failure(FirebaseError.snapshotMissing))
+            }
+            if snapshot.documentChanges.count == 1 {
+                let id = snapshot.documentChanges[0].document.documentID
+                return completion(.success(id))
+            } else {
+                return completion(.success(nil))
             }
         }
     }

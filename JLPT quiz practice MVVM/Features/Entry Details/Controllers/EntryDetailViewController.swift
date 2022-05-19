@@ -42,10 +42,7 @@ extension EntryDetailViewController {
 // MARK: - View Config
 extension EntryDetailViewController {
     private func configureBookmarkButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: viewModel.bookmarkItemImage,
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(viewModel.didTapBookmark))
+        navigationItem.rightBarButtonItem = viewModel.bookmarkBarItem
     }
     private func configureViews() {
         navigationItem.largeTitleDisplayMode = .never
@@ -65,10 +62,6 @@ extension EntryDetailViewController {
         containerView.addSubview(stackView)
         scrollView.addSubview(containerView)
         view.addSubview(scrollView)
-        
-        viewModel.didTapRelatedItemHandler = { [weak self] config in
-            self?.didTapRelatedItem(for: config.id, as: config.type)
-        }
     }
     private func configureContent() {
         titleLabel.text = viewModel.displayTitleLabelString
@@ -108,7 +101,10 @@ extension EntryDetailViewController {
                     print(error)
                 case .success(let items):
                     relatedGrammarsView.content = items
-                    relatedGrammarsView.didTapGrammarItemHandler = self.viewModel.didTapRelatedItemHandler
+                    relatedGrammarsView.didTapGrammarItemHandler = { [weak self] config in
+                        self?.didTapRelatedItem(for: config.id, as: config.type)
+                    }
+                    
                     self.stackView.addArrangedSubview(relatedGrammarsView)
                 }
             }
@@ -132,7 +128,7 @@ extension EntryDetailViewController {
         }
     }
     private func configureSignals() {
-        viewModel.isBookmarked
+        viewModel.bookmarkID
             .asObservable()
             .subscribe(onNext: { _ in
                 self.configureBookmarkButton()
