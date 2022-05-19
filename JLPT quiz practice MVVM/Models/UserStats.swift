@@ -42,6 +42,7 @@ struct UserStats: Codable, Identifiable, FirebaseFetchable {
     }
     
     init(snapshot: DocumentSnapshot) throws {
+        id = snapshot.documentID
         let data = try snapshot.data(as: UserStatsData.self)
         streakDays = data.streakDays
         numberOfAnsweredQuestions = data.numberOfAnsweredQuestions
