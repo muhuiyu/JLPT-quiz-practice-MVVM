@@ -15,9 +15,8 @@ class EntryDetailViewModel {
     
     var entryConfig: BehaviorRelay<Config> = BehaviorRelay(value: Config(id: "", type: .mixed))
     private(set) var entry: BehaviorRelay<Entry?> = BehaviorRelay(value: nil)
-    private(set) var isBookmarked: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     
-    var didTapRelatedItemHandler: ((_ entryConfig: Config) -> Void)?
+    private(set) var bookmarkID: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     
     struct Config {
         let id: String
@@ -28,6 +27,8 @@ class EntryDetailViewModel {
         self.entryConfig
             .asObservable()
             .subscribe(onNext: { value in
+                guard !value.id.isEmpty else { return }
+                
                 FirebaseDataSource.shared.fetchEntry(as: value.type, for: value.id) { result in
                     switch result {
                     case .failure(let error):
@@ -36,13 +37,21 @@ class EntryDetailViewModel {
                         self.entry.accept(item)
                     }
                 }
+                FirebaseDataSource.shared.getBookmarkID(for: value.id) { result in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                    case .success(let id):
+                        self.bookmarkID.accept(id)
+                    }
+                }
             })
             .disposed(by: disposeBag)
     }
 }
 
 extension EntryDetailViewModel {
-    var bookmarkItemImage: UIImage? { isBookmarked.value ? UIImage(systemName: "bookmark.fill") : UIImage(systemName: "bookmark") }
+    var bookmarkItemImage: UIImage? { bookmarkID.value == nil ? UIImage(systemName: "bookmark") : UIImage(systemName: "bookmark.fill") }
     var displayTitleLabelString: String? { return entry.value?.title }
     var displayMeaningLabelTitleString: String { return "意味" }
     var displayMeaningLabelContentString: String? { return entry.value?.meaning }
@@ -50,31 +59,36 @@ extension EntryDetailViewModel {
     var displayGrammarExamplesStackViewTitleString: String { return "例文" }
     var displayGrammarRemarkViewTitleString: String { return "解説" }
     var displayGrammarRelatedGrammersViewTitleString: String { return "類似文型" }
+    
+    var bookmarkBarItem: UIBarButtonItem { return UIBarButtonItem(image: bookmarkItemImage,
+                                                                  style: .done,
+                                                                  target: self,
+                                                                  action: #selector(didTapBookmark)) }
 }
 
 extension EntryDetailViewModel {
     @objc
     func didTapBookmark() {
-        if self.isBookmarked.value {
-            FirebaseDataSource.shared.removeBookmark(for: entryConfig.value.id) { result in
+        guard !entryConfig.value.id.isEmpty else { return }
+        
+        if let bookmarkID = self.bookmarkID.value {
+            FirebaseDataSource.shared.removeBookmark(for: bookmarkID) { result in
                 switch result {
                 case .failure(let error):
                     print(error)
                 case .success:
-                    break
+                    self.bookmarkID.accept(nil)
                 }
             }
-            self.isBookmarked.accept(false)
         } else {
             FirebaseDataSource.shared.addBookmark(for: entryConfig.value.id, as: entryConfig.value.type) { result in
                 switch result {
                 case .failure(let error):
                     print(error)
-                case .success:
-                    break
+                case .success(let bookmarkID):
+                    self.bookmarkID.accept(bookmarkID)
                 }
             }
-            self.isBookmarked.accept(true)
         }
     }
     func getGrammarItems(for ids: [String], completion: @escaping(Result<[RelatedItemListView.RelatedItem], Error>) -> Void) {
@@ -96,8 +110,5 @@ extension EntryDetailViewModel {
             }
         }
     }
-//    func didTap(_ item: ) {
-//
-//    }
 }
 
